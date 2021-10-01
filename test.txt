@@ -1,1 +1,13 @@
-Adasd
+--Pages
+Home
+login
+sign up
+create announce page (only with login)
+search page
+buy page (only with login)
+
+--Tables
+users
+Annonces
+categories
+

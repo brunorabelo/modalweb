@@ -6,7 +6,7 @@ create announce page (only with login)
 search page
 buy page (only with login)
 admin page
-
+user page
 
 --Tables
 users
@@ -16,11 +16,40 @@ categories
 --Details
 
 Home :
-    description
+    bla bla about ous
+
+login :
+    username
+    password
 
 sign up :
     username
     password (+ confirm)
     email
-    telephone (facultatif)
+    telephone (unnecessary)
+    adress (unnecessary)
 
+create announce page :
+    formulaire :
+        title
+        photo
+        description
+        price
+        place
+        contact
+
+search page :
+    search bar
+    sort by Tables(categories users)
+    sort by price
+    sort by distance
+    ajouter au panier
+    signaler aux admins
+    supprimer (admins)
+
+buy page :
+    liste des annonces dans le panier
+
+user page :
+    about someone
+    modify (if own page)

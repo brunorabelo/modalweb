@@ -1,12 +1,31 @@
 Pages :
-    Home
+    Home - Cyprien
     login - Bruno
     sign up - Cyprien
-    create announce page (only with login)  Cu
-    search page
-    buy page (only with login)
-    admin page
+    create announce page (only with login)  Cyprien
+    search page - Bruno
+    panier page (only with login) - Bruno
 
+
+Dates:
+08/10
+Home
+Login
+Signup - start
+search page - start
+
+15/10
+Signup - finish
+search page - finish
+create announce page (only with login)  - start
+panier page (only with login) - start
+
+22/10
+create announce page (only with login)  - finish
+panier page (only with login) - finish
+
+05/10
+Last details
 
 Tables :
     users

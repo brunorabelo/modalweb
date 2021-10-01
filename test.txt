@@ -1,8 +1,8 @@
 Pages :
     Home
-    login
-    sign up
-    create announce page (only with login)
+    login - Bruno
+    sign up - Cyprien
+    create announce page (only with login)  Cu
     search page
     buy page (only with login)
     admin page
@@ -27,7 +27,7 @@ sign up :
     password (+ confirm)
     email
     telephone (unnecessary)
-    adress (unnecessary)
+    address (unnecessary)
 
 create announce page :
     formulaire :

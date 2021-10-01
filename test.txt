@@ -11,3 +11,11 @@ users
 Annonces
 categories
 
+--Details
+
+sign up :
+    username
+    password (+ confirm)
+    email
+    telephone (facultatif)
+

@@ -11,6 +11,22 @@ class UserModel
     public string $address;
     public bool $is_admin;
 
+    public static function getUser($email)
+    {
+        $dbh = Database::connect();
+        $query = "SELECT * FROM `users` WHERE email=?";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'User');
+        $sth->execute(array($email));
+        $user = $sth->fetch();
+        $sth->closeCursor();
+
+        if (!$user)
+            return null;
+
+        $dbh = null;
+        return $user;
+    }
     public static function login($email, $mdp)
     {
         $dbh = Database::connect();

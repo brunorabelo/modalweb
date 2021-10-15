@@ -4,7 +4,7 @@ class Database
 {
     public static function connect()
     {
-        $dsn = 'mysql:dbname=td3;host=127.0.0.1';
+        $dsn = 'mysql:dbname=modalweb;host=127.0.0.1';
         $user = 'root';
         $password = '';
         $dbh = null;
@@ -18,9 +18,6 @@ class Database
         return $dbh;
     }
 }
-
-
-//$dbh = Database::connect();
 
 
 class Utilisateur

@@ -38,7 +38,6 @@ class UserModel
         if (!self::testerMdp($user, $mdp))
             return null;
 
-        $dbh = null;
         return $user;
     }
 
@@ -59,6 +58,7 @@ class UserModel
             $sth = $dbh->prepare("INSERT INTO `users` (`username`, `password`, `phone`, `address`, `email`) VALUES(?,?,?,?,?)");
             $sth->execute(array($username, password_hash($password, PASSWORD_DEFAULT), $phone, $address, $email));
         }
+        $dbh = null;
     }
 }
 

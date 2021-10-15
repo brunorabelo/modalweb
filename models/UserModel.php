@@ -27,27 +27,22 @@ class UserModel
         $dbh = null;
         return $user;
     }
+
     public static function login($email, $mdp)
     {
-        $dbh = Database::connect();
-        $query = "SELECT * FROM `users` WHERE email=?";
-        $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'User');
-        $sth->execute(array($email));
-        $user = $sth->fetch();
-        $sth->closeCursor();
+        $user = UserModel::getUser($email);
 
         if (!$user)
             return null;
 
-        if (!self::testerMdp($dbh, $user, $mdp))
+        if (!self::testerMdp($user, $mdp))
             return null;
 
         $dbh = null;
         return $user;
     }
 
-    private static function testerMdp($dbh, $user, $mdp)
+    private static function testerMdp($user, $mdp)
     {
         if (!$user)
             return false;
@@ -57,11 +52,12 @@ class UserModel
         return false;
     }
 
-    public static function insererUtilisateur($username,$password,$phone,$address,$email){
+    public static function insererUtilisateur($username, $password, $phone, $address, $email)
+    {
         $dbh = Database::connect();
-        if (is_null(UserModel::getUser($email))){
+        if (is_null(UserModel::getUser($email))) {
             $sth = $dbh->prepare("INSERT INTO `users` (`username`, `password`, `phone`, `address`, `email`) VALUES(?,?,?,?,?)");
-            $sth->execute(array($username,password_hash($password,PASSWORD_DEFAULT),$phone,$address,$email));
+            $sth->execute(array($username, password_hash($password, PASSWORD_DEFAULT), $phone, $address, $email));
         }
     }
 }

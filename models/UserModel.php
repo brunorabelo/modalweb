@@ -56,6 +56,14 @@ class UserModel
             return true;
         return false;
     }
+
+    public static function insererUtilisateur($username,$password,$phone,$address,$email){
+        $dbh = Database::connect();
+        if (is_null(UserModel::getUser($email))){
+            $sth = $dbh->prepare("INSERT INTO `users` (`username`, `password`, `phone`, `address`, `email`) VALUES(?,?,?,?,?)");
+            $sth->execute(array($username,password_hash($password,PASSWORD_DEFAULT),$phone,$address,$email));
+        }
+    }
 }
 
 ?>

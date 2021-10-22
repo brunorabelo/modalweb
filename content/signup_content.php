@@ -30,40 +30,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty(trim($_POST['adresse_mail']))) {
         $adresse_mail = 'Please enter an email.';
-    } elseif(filter_var(trim($_POST['adresse_mail']), FILTER_VALIDATE_EMAIL)) {//check si de la forme truc@bidule.chose
-        $username_err = "Please enter a valid email.";
-    }else{
-        var_dump (UserModel::getUser($trim($_POST['adresse_mail'])));
+    } elseif(!filter_var(trim($_POST['adresse_mail']), FILTER_VALIDATE_EMAIL)) {//check si de la forme truc@bidule.chose
+        $adresse_mail_err = "Please enter a valid email.";
+    }elseif (UserModel::getUser(trim($_POST['adresse_mail']))==null){
+        $adresse_mail = trim($_POST['adresse_mail']);
     }  
     
 
     // Check if password is empty
     if (empty(trim($_POST['password']))) {
         $password_err = 'Please enter your password.';
-    } else {
+    }if (empty(trim($_POST['confirm_password']))) {
+        $password_err = 'Please confirm your password.';
+    } elseif(trim($_POST['password']) != trim($_POST['confirm_password'])) {//vérifie la confirmation du mdp
+        $confirm_password_err = ' les deux mots de passes ne correspondent pas';
+    }else{
         $password = trim($_POST['password']);
     }
-    // Validate credentials
-    if (empty($email_err) && empty($password_err)) {
-        // Prepare a select statement
-        $user = UserModel::login($email, $password);
-        if ($user) {
-            // Start a new session
-            session_start();
 
-            // Store data in sessions
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user'] = $user;
 
-            // Redirect to user to page
-            header('location: welcome.php');
-        } else {
-            $email_err = "Email or password invalid.";
-        }
+    if (true){
+        $numero_telephone = trim($_POST['numero_telephone']);
     }
+
+
+    if (true){
+        $adresse = trim($_POST['adresse']);
+    }
+
+
+
+    if (empty($email_err) && empty($password_err)&& empty($username_err) && empty($confirm_password_err)){
+        UserModel::insererUtilisateur($username, $password, $numero_telephone, $adresse, $adresse_mail);
+    }
+    else{
+        $username_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err;
+    }
+
 }
 ?>
-?>
+
  
 <!DOCTYPE html>
 <html lang="fr">

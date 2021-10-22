@@ -16,7 +16,7 @@ class UserModel
         $dbh = Database::connect();
         $query = "SELECT * FROM `users` WHERE email=?";
         $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'User');
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'UserModel');
         $sth->execute(array($email));
         $user = $sth->fetch();
         $sth->closeCursor();
@@ -46,7 +46,7 @@ class UserModel
         if (!$user)
             return false;
 
-        if (password_verify($mdp, $user->mdp))
+        if (password_verify($mdp, $user->password))
             return true;
         return false;
     }

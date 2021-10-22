@@ -1,28 +1,10 @@
 <?php
-
-require_once "../models/AnnonceModel.php";
 require_once "../models/CategoryModel.php";
 session_start();
-
-$loggedIn = false;
-
-// Check if the user is already logged in, if yes then redirect him to welcome page
-if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    $loggedIn = true;
-}
-
+echo phpversion('tidy');
 $categories = CategoryModel::getCategories();
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $category = $_GET['category'] ?? null;
-    $search = $_GET['search'] ?? null;
-
-    $annonces = AnnonceModel::getAnnonces($search, $category);
-    var_dump($annonces);
-}
 ?>
-
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -33,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     <link href="css/main.css" rel="stylesheet"/>
 </head>
 <body>
-<div class="s005">
+<div class="s003">
     <form method="get" action="search.php">
         <div class="inner-form">
             <div class="input-field first-wrap">
@@ -69,15 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             </div>
         </div>
     </form>
-    <div>
-        <ul>
-            <?php
-            foreach ($annonces as $annonce) {
-                echo "<li>" . $annonce->title . "</li>";
-            }
-            ?>
-        </ul>
-    </div>
 </div>
 <script src="js/extention/choices.js"></script>
 <script>
@@ -90,5 +63,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 </script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
-
-

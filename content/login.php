@@ -3,11 +3,13 @@
 require_once "../models/UserModel.php";
 session_start();
 
+
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
     header("location: index.php");
     exit;
 }
+
 
 $email = $password = '';
 $email_err = $password_err = '';
@@ -40,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user'] = $user;
 
             // Redirect to user to page
-            header('location: welcome.php');
+            header('location: index.php');
         } else {
             $email_err = "Email or password invalid.";
         }

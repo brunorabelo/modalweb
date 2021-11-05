@@ -2,6 +2,7 @@
 // Include config file
 require_once "../db/db.php";
 require_once "../models/UserModel.php";
+require_once "../models/AnnonceModel.php";
 session_start();
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
@@ -12,13 +13,21 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
 
 // Define variables and initialize with empty values
-$password = $confirm_password = $adresse_mail = $numero_telephone = $adresse = "";
-$password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
-
+$title = $description = $price = $place = $quantity = $photo = "";
+$title_err = $description_err = $price_err = $place_err = $quantity_err = $photo_err = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    
+    //Validate title
+    //check if empty
+    if (empty(trim($_POST['title']))) {
+        $title_err = 'Please enter a title.';
+    } elseif(!preg_match('/^[a-zA-Z0-9]+$/', trim($_POST["title"]))){//check if special caracter
+        $title_err = "title can only contain letters and numbers.";
+    }else{
+        $title = trim($_POST['title']);
+    }
+
     if (empty(trim($_POST['adresse_mail']))) {
         $adresse_mail = 'Please enter an email.';
     } elseif(!filter_var(trim($_POST['adresse_mail']), FILTER_VALIDATE_EMAIL)) {//check si de la forme truc@bidule.chose
@@ -34,17 +43,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if password is empty
     if (empty(trim($_POST['password']))) {
         $password_err = 'Please enter your password.';
-    }if (empty(trim($_POST['confirm_password']))) {
-        $password_err = 'Please confirm your password.';
-    } elseif(trim($_POST['password']) != trim($_POST['confirm_password'])) {//vérifie la confirmation du mdp
-        $confirm_password_err = ' les deux mots de passes ne correspondent pas';
     }else{
         $password = trim($_POST['password']);
     }
 
+    if (empty(trim($_POST['price']))) {
+        $price_err = 'Please set a price.';
+    }else{
+        $price = trim($_POST['price']);
+    }
 
     if (true){
-        $numero_telephone = trim($_POST['numero_telephone']);
+        $quantity = trim($_POST['quantity']);
     }
 
 
@@ -54,11 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    if (empty($email_err) && empty($password_err)&& empty($confirm_password_err)){
-        UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail);
+    if (empty($title_err) && empty($_err)&& empty($_err) && empty($_err)){
+        AnnonceModel::insererAnnonce($title, $description, $quantity, $user_email, $price, $category_id, $photo);
     }
     else{
-        $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+        $title_err = $password_err = $price_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
     }
 
 }
@@ -78,33 +88,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="wrapper">
-        <h2>Créer un compte</h2>
+        <h2>Créer une annonce</h2>
         <form action="" method="post">
             <div class="form-group">
-                <label for="password">Mot de passe:</label>
+                <label for="title">Titre de l'annonce:</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>    
+            <div class="form-group">
+                <label for="password">Description:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
+            <form action=method="post" enctype="multipart/form-data">
+                <label for="title">Photo :</label>
+                <input type="file" name="photo"/>
+                <br>
+                <input type="submit" value="envoyer" />
+            </form>
             <div class="form-group">
-                <label for="confirm_password">Confirmer le mot de passe:</label>
-                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                <label for="price">Prix :</label>
+                <input type="password" class="form-control" id="price" name="price" required>
             </div>
             <div class="form-group">
-                <label for="adresse_mail">Adresse mail:</label>
+                <label for="adresse_mail">Où récupérer l'objet :</label>
                 <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required>
             </div>
             <div class="form-group">
-                <label for="numero_telephone">Numéro de téléphone:</label>
-                <input type="number" class="form-control" id="numero_telephone" name="numero_telephone" >
-            </div>
-            <div class="form-group">
-                <label for="adresse">Adresse:</label>
-                <input type="text" class="form-control" id="adresse" name="adresse" >
+                <label for="quantity">Quantité :</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" >
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-secondary ml-2" value="Reset">
             </div>
-            <p>Vous avez déjà un compte ? <a href="login.php"> Connectez vous ici</a>.</p>
         </form>
     </div>    
 </body>

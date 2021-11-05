@@ -5,7 +5,6 @@ require_once "../db/db.php";
 class UserModel
 {
     public string $email;
-    public string $username;
     public string $password;
     public string $phone;
     public string $address;
@@ -51,12 +50,12 @@ class UserModel
         return false;
     }
 
-    public static function insererUtilisateur($username, $password, $phone, $address, $email)
+    public static function insererUtilisateur($password, $phone, $address, $email)
     {
         $dbh = Database::connect();
         if (is_null(UserModel::getUser($email))) {
-            $sth = $dbh->prepare("INSERT INTO `users` (`username`, `password`, `phone`, `address`, `email`) VALUES(?,?,?,?,?)");
-            $sth->execute(array($username, password_hash($password, PASSWORD_DEFAULT), $phone, $address, $email));
+            $sth = $dbh->prepare("INSERT INTO `users` (`password`, `phone`, `address`, `email`) VALUES(?,?,?,?)");
+            $sth->execute(array( password_hash($password, PASSWORD_DEFAULT), $phone, $address, $email));
         }
         $dbh = null;
     }

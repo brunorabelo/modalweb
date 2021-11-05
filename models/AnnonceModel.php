@@ -14,7 +14,7 @@ class AnnonceModel
     public string $username;
     public string $quantity;
 
-    public static function getAnnonces($search = "", $category = null)
+    public static function getAnnonces($search, $category = null)
     {
         $dbh = Database::connect();
         $query = "SELECT * FROM annonce WHERE MATCH (title,description, place) AGAINST (? IN BOOLEAN MODE) AND ( category_id = ? ";
@@ -31,6 +31,18 @@ class AnnonceModel
 
         $dbh = null;
         return $annonces;
+    }
+
+    public static function insererAnnonce($title, $description, $quantity, $user_email, $price, $category_id, $photo)
+    {
+        $dbh = Database::connect();
+            $sth = $dbh->prepare("INSERT INTO `users` (`title`, `description`, `quantity`, `user_email`, `price`, `category_id`) VALUES(?,?,?,?,?,?)");
+            $sth->execute(array( $title, $description, $quantity, $user_email, $price, $category_id));
+
+        $photo_id = $dbh->last_insert_id;
+        move_uploaded_file($photo,"../content/photo/photo_annonce_$photo_id.jpg");
+
+        $dbh = null;
     }
     public static function getAllAnnonces()
     {

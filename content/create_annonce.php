@@ -18,7 +18,16 @@ $username_err = $password_err = $confirm_password_err = $adresse_mail_err = $num
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    
+    //Validate username
+    //check if empty
+    if (empty(trim($_POST['username']))) {
+        $username_err = 'Please enter username.';
+    } elseif(!preg_match('/^[a-zA-Z0-9]+$/', trim($_POST["username"]))){//check if special caracter
+        $username_err = "Username can only contain letters and numbers.";
+    }else{
+        $username = trim($_POST['username']);
+    }
+
     if (empty(trim($_POST['adresse_mail']))) {
         $adresse_mail = 'Please enter an email.';
     } elseif(!filter_var(trim($_POST['adresse_mail']), FILTER_VALIDATE_EMAIL)) {//check si de la forme truc@bidule.chose
@@ -78,8 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="wrapper">
-        <h2>Créer un compte</h2>
+        <h2>Créer une annonce</h2>
         <form action="" method="post">
+            <div class="form-group">
+                <label for="title">Titre de l'annonce:</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>    
             <div class="form-group">
                 <label for="password">Mot de passe:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
@@ -104,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-secondary ml-2" value="Reset">
             </div>
-            <p>Vous avez déjà un compte ? <a href="login.php"> Connectez vous ici</a>.</p>
         </form>
     </div>    
 </body>

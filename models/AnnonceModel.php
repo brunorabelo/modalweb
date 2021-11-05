@@ -14,7 +14,7 @@ class AnnonceModel
     public string $username;
     public string $quantity;
 
-    public static function getAnnonces($search, $category = null)
+    public static function getAnnonces($search = "", $category = null)
     {
         $dbh = Database::connect();
         $query = "SELECT * FROM annonce WHERE MATCH (title,description, place) AGAINST (? IN BOOLEAN MODE) AND ( category_id = ? ";
@@ -32,5 +32,20 @@ class AnnonceModel
         $dbh = null;
         return $annonces;
     }
+    public static function getAllAnnonces()
+    {
+        $dbh = Database::connect();
+        $query = "SELECT * FROM annonce";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'AnnonceModel');
+        $sth->execute();
+        $annonces = $sth->fetchAll();
+        $sth->closeCursor();
+
+        $dbh = null;
+        return $annonces;
+    }
+
+
 }
 

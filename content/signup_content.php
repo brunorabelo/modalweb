@@ -34,7 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $adresse_mail_err = "Please enter a valid email.";
     }elseif (UserModel::getUser(trim($_POST['adresse_mail']))==null){
         $adresse_mail = trim($_POST['adresse_mail']);
-    }  
+    }
+    else{
+        $username_err = "This email allready has an account";
+    }
     
 
     // Check if password is empty
@@ -61,10 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (empty($email_err) && empty($password_err)&& empty($username_err) && empty($confirm_password_err)){
-        UserModel::insererUtilisateur($username, $password, $numero_telephone, $adresse, $adresse_mail);
+        UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail);
     }
     else{
-        $username_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err;
+        $username_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
     }
 
 }

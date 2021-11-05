@@ -5,7 +5,6 @@ require_once "../db/db.php";
 class UserModel
 {
     public string $email;
-    public string $username;
     public string $password;
     public string $phone;
     public string $address;

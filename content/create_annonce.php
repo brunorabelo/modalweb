@@ -48,13 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty(trim($_POST['price']))) {
-        $password_err = 'Please set a price.';
+        $price_err = 'Please set a price.';
     }else{
-        $password = trim($_POST['password']);
+        $price = trim($_POST['price']);
     }
 
     if (true){
-        $numero_telephone = trim($_POST['numero_telephone']);
+        $quantity = trim($_POST['quantity']);
     }
 
 
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         AnnonceModel::insererAnnonce($title, $description, $quantity, $user_email, $price, $category_id, $photo);
     }
     else{
-        $title_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+        $title_err = $password_err = $price_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
     }
 
 }
@@ -105,16 +105,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="submit" value="envoyer" />
             </form>
             <div class="form-group">
-                <label for="confirm_password">Prix :</label>
-                <input type="password" class="form-control" id="confirm_password" name="price" required>
+                <label for="price">Prix :</label>
+                <input type="password" class="form-control" id="price" name="price" required>
             </div>
             <div class="form-group">
                 <label for="adresse_mail">Où récupérer l'objet :</label>
                 <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required>
             </div>
             <div class="form-group">
-                <label for="numero_telephone">Quantité :</label>
-                <input type="number" class="form-control" id="numero_telephone" name="numero_telephone" >
+                <label for="quantity">Quantité :</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" >
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">

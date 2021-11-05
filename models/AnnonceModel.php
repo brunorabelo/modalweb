@@ -39,7 +39,7 @@ class AnnonceModel
             $sth->execute(array( $title, $description, $quantity, $user_email, $price, $category_id));
         
         $photo_id = $dbh->last_insert_id;
-        move_uploaded_file($photo,"photo_annonce_$photo_id.jpg");
+        move_uploaded_file($photo,"../content/photo/photo_annonce_$photo_id.jpg");
         
         $dbh = null;
     }

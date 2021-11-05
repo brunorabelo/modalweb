@@ -12,8 +12,8 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
 
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = $adresse_mail = $numero_telephone = $adresse = "";
-$username_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+$password = $confirm_password = $adresse_mail = $numero_telephone = $adresse = "";
+$password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $adresse_mail = trim($_POST['adresse_mail']);
     }
     else{
-        $username_err = "This email allready has an account";
+        $adresse_mail_err = "This email allready has an account";
     }
     
 
@@ -54,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    if (empty($email_err) && empty($password_err)&& empty($username_err) && empty($confirm_password_err)){
+    if (empty($email_err) && empty($password_err)&& empty($confirm_password_err)){
         UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail);
     }
     else{
-        $username_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+        $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
     }
 
 }

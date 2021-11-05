@@ -2,6 +2,7 @@
 // Include config file
 require_once "../db/db.php";
 require_once "../models/UserModel.php";
+require_once "../models/AnnonceModel.php";
 session_start();
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
@@ -12,20 +13,19 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
 
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = $adresse_mail = $numero_telephone = $adresse = "";
-$username_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
-
+$title = $description = $price = $place = $quantity = $photo = "";
+$title_err = $description_err = $price_err = $place_err = $quantity_err = $photo_err = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    //Validate username
+    //Validate title
     //check if empty
-    if (empty(trim($_POST['username']))) {
-        $username_err = 'Please enter username.';
-    } elseif(!preg_match('/^[a-zA-Z0-9]+$/', trim($_POST["username"]))){//check if special caracter
-        $username_err = "Username can only contain letters and numbers.";
+    if (empty(trim($_POST['title']))) {
+        $title_err = 'Please enter a title.';
+    } elseif(!preg_match('/^[a-zA-Z0-9]+$/', trim($_POST["title"]))){//check if special caracter
+        $title_err = "title can only contain letters and numbers.";
     }else{
-        $username = trim($_POST['username']);
+        $title = trim($_POST['title']);
     }
 
     if (empty(trim($_POST['adresse_mail']))) {
@@ -36,21 +36,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $adresse_mail = trim($_POST['adresse_mail']);
     }
     else{
-        $username_err = "This email allready has an account";
+        $adresse_mail_err = "This email allready has an account";
     }
     
 
     // Check if password is empty
     if (empty(trim($_POST['password']))) {
         $password_err = 'Please enter your password.';
-    }if (empty(trim($_POST['confirm_password']))) {
-        $password_err = 'Please confirm your password.';
-    } elseif(trim($_POST['password']) != trim($_POST['confirm_password'])) {//vérifie la confirmation du mdp
-        $confirm_password_err = ' les deux mots de passes ne correspondent pas';
     }else{
         $password = trim($_POST['password']);
     }
 
+    if (empty(trim($_POST['price']))) {
+        $password_err = 'Please set a price.';
+    }else{
+        $password = trim($_POST['password']);
+    }
 
     if (true){
         $numero_telephone = trim($_POST['numero_telephone']);
@@ -63,11 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-    if (empty($email_err) && empty($password_err)&& empty($username_err) && empty($confirm_password_err)){
-        UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail);
+    if (empty($title_err) && empty($_err)&& empty($_err) && empty($_err)){
+        AnnonceModel::insererAnnonce($title, $description, $quantity, $user_email, $price, $category_id, $photo);
     }
     else{
-        $username_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+        $title_err = $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
     }
 
 }
@@ -91,27 +92,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="" method="post">
             <div class="form-group">
                 <label for="title">Titre de l'annonce:</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+                <input type="text" class="form-control" id="title" name="title" required>
             </div>    
             <div class="form-group">
-                <label for="password">Mot de passe:</label>
+                <label for="password">Description:</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
+            <form action=method="post" enctype="multipart/form-data">
+                <label for="title">Photo :</label>
+                <input type="file" name="photo"/>
+                <br>
+                <input type="submit" value="envoyer" />
+            </form>
             <div class="form-group">
-                <label for="confirm_password">Confirmer le mot de passe:</label>
-                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                <label for="confirm_password">Prix :</label>
+                <input type="password" class="form-control" id="confirm_password" name="price" required>
             </div>
             <div class="form-group">
-                <label for="adresse_mail">Adresse mail:</label>
+                <label for="adresse_mail">Où récupérer l'objet :</label>
                 <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required>
             </div>
             <div class="form-group">
-                <label for="numero_telephone">Numéro de téléphone:</label>
+                <label for="numero_telephone">Quantité :</label>
                 <input type="number" class="form-control" id="numero_telephone" name="numero_telephone" >
-            </div>
-            <div class="form-group">
-                <label for="adresse">Adresse:</label>
-                <input type="text" class="form-control" id="adresse" name="adresse" >
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">

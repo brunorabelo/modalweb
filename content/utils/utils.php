@@ -2,6 +2,7 @@
 
 require_once "../models/UserModel.php";
 require_once "../models/CategoryModel.php";
+
 function get_head()
 {
     echo <<<HEAD
@@ -48,6 +49,16 @@ HEAD;
 
 }
 
+function get_categories_select()
+{
+    $categories = CategoryModel::getCategories();
+    echo '<select class="input-select" name="category">';
+    foreach ($categories as $cat) {
+        echo "<option value='{$cat->id}'> " . $cat->nom . "</option>";
+    }
+    echo '</select>';
+}
+
 function get_search()
 {
     $categories = CategoryModel::getCategories();
@@ -76,19 +87,30 @@ function get_search()
 
 }
 
+function isLoggedIn()
+{
+
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+    return isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true;
+}
+
 function get_header()
 {
-    session_start();
+
     $text = "Login";
     $url = "login.php";
     $bienvenue = "";
     $logout = "";
+    $signup = '<li><a href="signup.php"><i class="fa fa-user-o"></i>Signup</a></li>';
     // Check if the user is already logged in, if yes then redirect him to welcome page
-    if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    if (isLoggedIn()) {
         $bienvenue = "Welcome " . $_SESSION["user"]->email;
         $text = "My Account";
-        $url = "content/profile.php";
+        $url = "profile.php";
         $logout = '<li><a href="logout.php"><i class="fa fa-user-o"></i>Logout</a></li>';
+        $signup = '';
     }
 
     echo '<!-- HEADER -->
@@ -105,6 +127,7 @@ function get_header()
                 <li style="color: white;">' . $bienvenue . '</li>
                 <li><a href="' . $url . '"><i class="fa fa-user-o"></i>' . $text . '</a></li>
                 ' . $logout . '
+                ' . $signup . '
             </ul>
         </div>
     </div>
@@ -130,7 +153,7 @@ function get_header()
     echo '<!-- ACCOUNT -->
                 <div class="col-md-3 clearfix">
                     <div class="header-ctn">
-                        <!-- Cart -->
+                        <!-- Cart 
                         <div class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
@@ -171,8 +194,17 @@ function get_header()
                                 </div>
                             </div>
                         </div>
-                        <!-- /Cart -->
+                         /Cart -->
+';
 
+    if (isLoggedIn()) {
+        echo '<div class="dropdown">
+                            <a href="create_annonce.php">
+                                <i class="fa fa-plus"></i>
+                                <span>Add annonce</span>
+                            </a>';
+    } else echo '<div class="dropdown">';
+    echo '
                         <!-- Menu Toogle -->
                         <div class="menu-toggle">
                             <a href="#">
@@ -194,10 +226,8 @@ function get_header()
 <!-- /HEADER -->';
 }
 
-function get_navigation()
-{
-    echo <<<NAV
-
+function get_profile_navigation($tab = 0){
+    echo '
 <!-- NAVIGATION -->
 <nav id="navigation">
     <!-- container -->
@@ -206,9 +236,34 @@ function get_navigation()
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Hot Deals</a></li>
-                <li><a href="#">Categories</a></li>
+                <li '. ($tab == 0 ? 'class="active"':'') .' ><a href="#">Personal</a></li>
+                <li '. ($tab == 1 ? 'class="active"':'') .' ><a href="#">Mot de Passe</a></li>
+                <li '. ($tab == 2 ? 'class="active"':'') .' ><a href="#">Mes annonces</a></li>
+            </ul>
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
+';
+}
+
+function get_navigation($tab = 0)
+{
+    echo '
+<!-- NAVIGATION -->
+<nav id="navigation">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <ul class="main-nav nav navbar-nav">
+                <li '. ($tab == 0 ? 'class="active"':'') .' ><a href="#">Home</a></li>
+                <li '. ($tab == 0 ? 'class="active"':'') .' ><a href="#">Hot Deals</a></li>
+                <li '. ($tab == 0 ? 'class="active"':'') .' ><a href="#">Categories</a></li>
                 <li><a href="#">Laptops</a></li>
                 <li><a href="#">Smartphones</a></li>
                 <li><a href="#">Cameras</a></li>
@@ -221,7 +276,7 @@ function get_navigation()
     <!-- /container -->
 </nav>
 <!-- /NAVIGATION -->
-NAV;
+';
 
 }
 

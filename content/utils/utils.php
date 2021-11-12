@@ -62,6 +62,7 @@ function get_categories_select()
 function get_search()
 {
     $categories = CategoryModel::getCategories();
+    $category = null;
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $category = $_GET['category'] ?? null;
         $search = $_GET['search'] ?? null;
@@ -226,7 +227,8 @@ function get_header()
 <!-- /HEADER -->';
 }
 
-function get_profile_navigation($tab = 0){
+function get_profile_navigation($tab = 0)
+{
     echo '
 <!-- NAVIGATION -->
 <nav id="navigation">
@@ -236,9 +238,9 @@ function get_profile_navigation($tab = 0){
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li '. ($tab == 0 ? 'class="active"':'') .' ><a href="#">Personal</a></li>
-                <li '. ($tab == 1 ? 'class="active"':'') .' ><a href="#">Mot de Passe</a></li>
-                <li '. ($tab == 2 ? 'class="active"':'') .' ><a href="#">Mes annonces</a></li>
+                <li ' . ($tab == 0 ? 'class="active"' : '') . ' ><a href="profile.php">Personal</a></li>
+                <li ' . ($tab == 1 ? 'class="active"' : '') . ' ><a href="mdp.php">Mot de Passe</a></li>
+                <li ' . ($tab == 2 ? 'class="active"' : '') . ' ><a href="annonces.php">Mes annonces</a></li>
             </ul>
             <!-- /NAV -->
         </div>
@@ -261,9 +263,7 @@ function get_navigation($tab = 0)
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li '. ($tab == 0 ? 'class="active"':'') .' ><a href="#">Home</a></li>
-                <li '. ($tab == 0 ? 'class="active"':'') .' ><a href="#">Hot Deals</a></li>
-                <li '. ($tab == 0 ? 'class="active"':'') .' ><a href="#">Categories</a></li>
+                <li ' . ($tab == 0 ? 'class="active"' : '') . ' ><a href="#">Home</a></li>
                 <li><a href="#">Laptops</a></li>
                 <li><a href="#">Smartphones</a></li>
                 <li><a href="#">Cameras</a></li>

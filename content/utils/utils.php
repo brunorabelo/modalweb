@@ -240,7 +240,7 @@ function get_profile_navigation($tab = 0)
             <ul class="main-nav nav navbar-nav">
                 <li ' . ($tab == 0 ? 'class="active"' : '') . ' ><a href="profile.php">Personal</a></li>
                 <li ' . ($tab == 1 ? 'class="active"' : '') . ' ><a href="mdp.php">Mot de Passe</a></li>
-                <li ' . ($tab == 2 ? 'class="active"' : '') . ' ><a href="annonces.php">Mes annonces</a></li>
+                <li ' . ($tab == 2 ? 'class="active"' : '') . ' ><a href="mes_annonces.php">Mes annonces</a></li>
             </ul>
             <!-- /NAV -->
         </div>

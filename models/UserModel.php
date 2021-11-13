@@ -5,6 +5,8 @@ require_once "../db/db.php";
 class UserModel
 {
     public string $email;
+    public string $nom;
+    public string $prenom;
     public string $password;
     public string $phone;
     public string $address;
@@ -62,6 +64,17 @@ class UserModel
         }
         $dbh = null;
         return false;
+    }
+
+    public static function updateUser($user, $newNom, $newPrenom, $newTelephone, $newAddress)
+    {
+        $email = $user->email;
+        $dbh = Database::connect();
+        if (UserModel::getUser($email)) {
+            $sth = $dbh->prepare("UPDATE `users` SET `nom` = ?, `prenom` = ?, `phone` = ?,`address` = ?  WHERE `email` = ?");
+            $sth->execute(array($newNom, $newPrenom, $newTelephone, $newAddress, $email));
+        }
+        $dbh = null;
     }
 
     public static function insererUtilisateur($password, $phone, $address, $email, $nom, $prenom)

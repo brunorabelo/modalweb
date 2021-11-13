@@ -30,10 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else $prenom = $_POST['prenom'];
 
 
-    // Check if password is empty
-    if (empty(trim($_POST['password']))) {
-        $errors[] = 'Please enter your password.';
-    }
     if (empty(trim($_POST['adresse_mail']))) {
         $errors[] = 'Please enter an email.';
     } elseif (!filter_var(trim($_POST['adresse_mail']), FILTER_VALIDATE_EMAIL)) {//check si de la forme truc@bidule.chose
@@ -41,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (UserModel::getUser(trim($_POST['adresse_mail'])) == null) {
         $adresse_mail = trim($_POST['adresse_mail']);
     } else {
-        $errors[] = "This email allready has an account";
+        $errors[] = "This email already has an account";
     }
 
 
@@ -89,23 +85,23 @@ get_header();
             <form action="" method="post">
                 <div class="form-group">
                     <label for="nom">Nom:</label>
-                    <input type="text" class="form-control" id="nom" name="nom">
+                    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $nom ?>">
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prénom:</label>
-                    <input type="text" class="form-control" id="prenom" name="prenom">
+                    <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $prenom ?>">
                 </div>
                 <div class="form-group">
                     <label for="numero_telephone">Numéro de téléphone:</label>
-                    <input type="tel" class="form-control" id="numero_telephone" name="numero_telephone">
+                    <input type="tel" class="form-control" id="numero_telephone" name="numero_telephone" value="<?php echo $numero_telephone ?>">
                 </div>
                 <div class="form-group">
                     <label for="adresse">Adresse:</label>
-                    <input type="text" class="form-control" id="adresse" name="adresse">
+                    <input type="text" class="form-control" id="adresse" name="adresse" value="<?php echo $adresse ?>">
                 </div>
                 <div class="form-group">
                     <label for="adresse_mail">Adresse mail:</label>
-                    <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required>
+                    <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required  value="<?php echo $adresse_mail ?>">
                 </div>
                 <div class="form-group">
                     <label for="password">Mot de passe:</label>

@@ -102,6 +102,16 @@ class AnnonceModel
         return $annonces;
     }
 
+    public static function updateAnnonce($id, $title, $description, $quantity, $place, $price, $category_id, $photo)
+    {
+        $dbh = Database::connect();
+        $sth = $dbh->prepare("UPDATE `annonce` SET `title` = ?, `description` = ?, `quantity` = ?, `place` = ?, 
+                     `price` = ?, `category_id` = ?, `photo` = ? WHERE id= ?");
+        $res = $sth->execute(array($title, $description, $quantity, $place, $price, $category_id, $photo, $id));
+        $dbh = null;
+        return $res;
+    }
+
     public static function insererAnnonce($title, $description, $quantity, $place, $user_email, $price, $category_id, $photo)
     {
         $dbh = Database::connect();

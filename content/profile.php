@@ -12,34 +12,21 @@ if (!isLoggedIn()) {
 
 // Define variables and initialize with empty values
 $password = $confirm_password = $adresse_mail = $numero_telephone = $adresse = "";
-$password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
-
+$errors = array();
+$success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
-    if (empty(trim($_POST['adresse_mail']))) {
-        $adresse_mail = 'Please enter an email.';
-    } elseif (!filter_var(trim($_POST['adresse_mail']), FILTER_VALIDATE_EMAIL)) {//check si de la forme truc@bidule.chose
-        $adresse_mail_err = "Please enter a valid email.";
-    } elseif (UserModel::getUser(trim($_POST['adresse_mail'])) == null) {
-        $adresse_mail = trim($_POST['adresse_mail']);
-    } else {
-        $adresse_mail_err = "This email allready has an account";
-    }
+    // Check if nom is empty
+    if (empty(trim($_POST['nom']))) {
+        $errors[] = 'Please enter your nom.';
+    } else $nom = $_POST['nom'];
 
-
-    // Check if password is empty
-    if (empty(trim($_POST['password']))) {
-        $password_err = 'Please enter your password.';
-    }
-    if (empty(trim($_POST['confirm_password']))) {
-        $password_err = 'Please confirm your password.';
-    } elseif (trim($_POST['password']) != trim($_POST['confirm_password'])) {//vérifie la confirmation du mdp
-        $confirm_password_err = ' les deux mots de passes ne correspondent pas';
-    } else {
-        $password = trim($_POST['password']);
-    }
+    // check if prenom is empty
+    if (empty(trim($_POST['prenom']))) {
+        $errors[] = 'Please enter your prenom.';
+    } else $prenom = $_POST['prenom'];
 
 
     if (true) {
@@ -51,13 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $adresse = trim($_POST['adresse']);
     }
 
-
-    if (empty($email_err) && empty($password_err) && empty($confirm_password_err)) {
-        UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail);
-    } else {
-        $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+    if (empty($errors)) {
+        $user = $_SESSION['user'];
+        UserModel::updateUser($user, $nom, $prenom, $numero_telephone, $adresse);
+        $user = UserModel::getUser($user->email);
+        $_SESSION['user'] = $user;
+        $success = true;
     }
-
 }
 
 
@@ -72,14 +59,24 @@ get_profile_navigation(0);
     <div class="row">
         <div class="col-md-4 ">
             <h1 class="h3 mb-3 fw-normal">Modifier compte</h1>
+
+            <?php
+            if ($success)
+                echo "<p style='color: green'>Your personal data has been successfully changed!</p>";
+            else {
+                foreach ($errors as $error)
+                    echo "<li style='color: red'>$error</li>";
+            }
+            ?>
             <form action="" method="post">
                 <div class="form-group">
                     <label for="nom">Nom:</label>
-                    <input type="text" class="form-control" id="nom" name="nom">
+                    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $user->nom ?>">
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prénom:</label>
-                    <input type="text" class="form-control" id="prenom" name="prenom">
+                    <input type="text" class="form-control" id="prenom" name="prenom"
+                           value="<?php echo $user->prenom ?>">
                 </div>
                 <div class="form-group">
                     <label for="numero_telephone">Numéro de téléphone:</label>

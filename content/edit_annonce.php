@@ -3,6 +3,7 @@
 require_once 'utils/utils.php';
 require_once "../models/UserModel.php";
 require_once "../models/AnnonceModel.php";
+require_once 'utils/upload_utils.php';
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if (!isLoggedIn()) {
@@ -21,21 +22,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 // Define variables and initialize with empty values
 $title = $description = $price = $place = $quantity = $photo = "";
-$title_err = $description_err = $price_err = $place_err = $quantity_err = $photo_err = "";
+$errors = array();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //Validate title
     //check if empty
     $id = trim($_POST['id']);
+    $annonce = AnnonceModel::getAnnonceDetails($id);
+    if (!$annonce)
+        $errors[] = "Problem updating the annonce";
     if (empty(trim($_POST['title']))) {
-        $title_err = 'Please enter a title.';
+        $errors[] = 'Please enter a title.';
     } else {
         $title = trim($_POST['title']);
     }
 
+    if (empty(trim($_POST['description']))) {
+        $errors[] = 'Please enter a description.';
+    } else {
+        $description = trim($_POST['description']);
+    }
 
+    $test = '';
     if (empty(trim($_POST['price']))) {
-        $price_err = 'Please set a price.';
+        $errors[] = 'Please set a price.';
     } else {
         $price = trim($_POST['price']);
     }
@@ -51,15 +61,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (true) {
         $category = trim($_POST['category']);
     }
+    $photo = $annonce->photo;
 
-
-    if (empty($title_err) && empty($_err) && empty($_err) && empty($_err)) {
-        $user_email = $_SESSION['user']->email;
-        AnnonceModel::updateAnnonce($id, $title, $description, $quantity, $adresse, $user_email, $price, $category, $photo);
-    } else {
-        $title_err = $password_err = $price_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+    if (!empty($_FILES['photo']['tmp_name'])) {
+        $dir = 'img/annonces/';
+        $oldFilename = $dir . $annonce->photo;
+        unlink($oldFilename);
+        $filename = tempnam($dir, 'IMG_');
+        unlink($filename);
+        $photo = substr($filename, strpos($filename, "IMG_"));
+        if (!$dir = uploadImage($filename)) {
+            $errors[] = "A problem occured while uploading the image.";
+        }
     }
 
+    $user_email = $_SESSION['user']->email;
+    if ($user_email != $annonce->user_email)
+        $errors[] = "You are not allowed to edit this image";
+    if (empty($errors)) {
+        AnnonceModel::updateAnnonce($id, $title, $description, $quantity, $adresse, $price, $category, $photo);
+        $annonce = AnnonceModel::getAnnonceDetails($id);
+    }
 }
 
 
@@ -72,7 +94,11 @@ get_header();
         <div class="row">
             <div class="col-md-4 ">
                 <h1 class="h3 mb-3 fw-normal">Editer l'annonce</h1>
-                <form action="" method="post">
+                <?php
+                foreach ($errors as $error)
+                    echo "<li style='color: red'>$error</li>"
+                ?>
+                <form action="" method="post" enctype="multipart/form-data">
                     <input type="hidden" id="id" name="id" value="<?php echo $annonce->id ?>">
                     <div class="form-group">
                         <label for="title">Titre de l'annonce:</label>
@@ -87,16 +113,25 @@ get_header();
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea class="form-control" id="password" name="description"
+                        <textarea class="form-control" id="description" name="description"
                                   required><?php echo $annonce->description ?></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="title">Photo :</label>
-                        <input type="file" name="photo" value="<?php echo null ?>"/>
+                        <label>Current Photo: </label>
+                        <!-- Product thumb imgs -->
+                        <div class="container">
+                            <!-- row -->
+                            <div class="row">
+                                <img src="./img/annonces/<?php echo $annonce->photo ?>" alt="">
+                            </div>
+                        </div>
+                        <label for="photo">Photo :</label>
+                        <input type="file" name="photo" accept="image/png, image/jpeg"/>
                     </div>
                     <div class="form-group">
                         <label for="price">Prix :</label>
-                        <input type="number" class="form-control" placeholder="0.00" id="price" name="price" required
+                        <input type="number" class="form-control" placeholder="0.00" step="0.01" id="price" name="price"
+                               required
                                value="<?php echo $annonce->price ?>">
                     </div>
                     <div class="form-group">

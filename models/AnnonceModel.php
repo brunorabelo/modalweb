@@ -62,6 +62,8 @@ class AnnonceModel
 //        $sth->setFetchMode(PDO::FETCH_CLASS, 'AnnonceModel');
         $sth->execute([$id]);
         $row = $sth->fetch(PDO::FETCH_ASSOC);
+        if (!$row)
+            return null;
         $annonce = self::annonceFromRow($row);
         $sth->closeCursor();
 
@@ -79,7 +81,6 @@ class AnnonceModel
         $query = "DELETE FROM `annonce` WHERE id = ?";
         $sth = $dbh->prepare($query);
         $sth->execute([$id]);
-        $sth->fetch(PDO::FETCH_ASSOC);
         $sth->closeCursor();
 
         $dbh = null;
@@ -104,13 +105,11 @@ class AnnonceModel
     public static function insererAnnonce($title, $description, $quantity, $place, $user_email, $price, $category_id, $photo)
     {
         $dbh = Database::connect();
-        $sth = $dbh->prepare("INSERT INTO `users` (`title`, `description`, `quantity`, `place`,  `user_email`, `price`, `category_id`) VALUES(?,?,?,?,?,?)");
-        $sth->execute(array($title, $description, $quantity, $place, $user_email, $price, $category_id));
-
-        $photo_id = $dbh->last_insert_id;
-        move_uploaded_file($photo, "../content/photo/photo_annonce_$photo_id.jpg");
-
+        $sth = $dbh->prepare("INSERT INTO `annonce` (`title`, `description`, `quantity`, `place`,  `user_email`, 
+                     `price`, `category_id`, `photo`) VALUES(?,?,?,?,?,?,?,?)");
+        $res = $sth->execute(array($title, $description, $quantity, $place, $user_email, $price, $category_id, $photo));
         $dbh = null;
+        return $res;
     }
 
     public static function getAllAnnonces()

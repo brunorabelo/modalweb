@@ -12,36 +12,50 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
 
 // Define variables and initialize with empty values
-$password = $confirm_password = $adresse_mail = $numero_telephone = $adresse = "";
-$password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+$password = $confirm_password = $adresse_mail = $numero_telephone = $adresse = $nom = $prenom = "";
+$errors = array();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
+    // Check if nom is empty
+    if (empty(trim($_POST['nom']))) {
+        $errors[] = 'Please enter your nom.';
+    } else $nom = $_POST['nom'];
+
+    // check if prenom is empty
+    if (empty(trim($_POST['prenom']))) {
+        $errors[] = 'Please enter your prenom.';
+    } else $prenom = $_POST['prenom'];
+
+
+    // Check if password is empty
+    if (empty(trim($_POST['password']))) {
+        $errors[] = 'Please enter your password.';
+    }
     if (empty(trim($_POST['adresse_mail']))) {
-        $adresse_mail = 'Please enter an email.';
+        $errors[] = 'Please enter an email.';
     } elseif (!filter_var(trim($_POST['adresse_mail']), FILTER_VALIDATE_EMAIL)) {//check si de la forme truc@bidule.chose
-        $adresse_mail_err = "Please enter a valid email.";
+        $errors[] = "Please enter a valid email.";
     } elseif (UserModel::getUser(trim($_POST['adresse_mail'])) == null) {
         $adresse_mail = trim($_POST['adresse_mail']);
     } else {
-        $adresse_mail_err = "This email allready has an account";
+        $errors[] = "This email allready has an account";
     }
 
 
     // Check if password is empty
     if (empty(trim($_POST['password']))) {
-        $password_err = 'Please enter your password.';
+        $errors[] = 'Please enter your password.';
     }
     if (empty(trim($_POST['confirm_password']))) {
-        $password_err = 'Please confirm your password.';
+        $errors[] = 'Please confirm your password.';
     } elseif (trim($_POST['password']) != trim($_POST['confirm_password'])) {//vérifie la confirmation du mdp
-        $confirm_password_err = ' les deux mots de passes ne correspondent pas';
+        $errors[] = 'Les deux mots de passes ne correspondent pas';
     } else {
         $password = trim($_POST['password']);
     }
-
 
     if (true) {
         $numero_telephone = trim($_POST['numero_telephone']);
@@ -53,10 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if (empty($email_err) && empty($password_err) && empty($confirm_password_err)) {
-        UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail);
-    } else {
-        $password_err = $confirm_password_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+    if (empty($errors)) {
+        UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail, $nom, $prenom);
     }
 
 }
@@ -70,6 +82,10 @@ get_header();
     <div class="row">
         <div class="col-md-4 ">
             <h1 class="h3 mb-3 fw-normal">Créer un compte</h1>
+            <?php
+            foreach ($errors as $error)
+                echo "<li style='color: red'>$error</li>"
+            ?>
             <form action="" method="post">
                 <div class="form-group">
                     <label for="nom">Nom:</label>

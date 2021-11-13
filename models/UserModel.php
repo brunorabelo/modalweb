@@ -64,12 +64,12 @@ class UserModel
         return false;
     }
 
-    public static function insererUtilisateur($password, $phone, $address, $email)
+    public static function insererUtilisateur($password, $phone, $address, $email, $nom, $prenom)
     {
         $dbh = Database::connect();
         if (is_null(UserModel::getUser($email))) {
-            $sth = $dbh->prepare("INSERT INTO `users` (`password`, `phone`, `address`, `email`) VALUES(?,?,?,?)");
-            $sth->execute(array(password_hash($password, PASSWORD_DEFAULT), $phone, $address, $email));
+            $sth = $dbh->prepare("INSERT INTO `users` (`password`, `phone`, `address`, `email`, `nom`, `prenom`) VALUES(?,?,?,?,?,?)");
+            $sth->execute(array(password_hash($password, PASSWORD_DEFAULT), $phone, $address, $email, $nom, $prenom));
         }
         $dbh = null;
     }

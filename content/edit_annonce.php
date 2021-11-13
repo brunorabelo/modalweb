@@ -73,7 +73,7 @@ get_header();
             <div class="col-md-4 ">
                 <h1 class="h3 mb-3 fw-normal">Editer l'annonce</h1>
                 <form action="" method="post">
-                    <input type="hidden" id="id" name="id" value="<?php echo $annonce->id?>">
+                    <input type="hidden" id="id" name="id" value="<?php echo $annonce->id ?>">
                     <div class="form-group">
                         <label for="title">Titre de l'annonce:</label>
                         <input type="text" class="form-control" id="title" name="title" required
@@ -87,26 +87,27 @@ get_header();
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea class="form-control" id="password" name="description" required><?php echo $annonce->description ?></textarea>
+                        <textarea class="form-control" id="password" name="description"
+                                  required><?php echo $annonce->description ?></textarea>
                     </div>
                     <div class="form-group">
-                        <!--                        <form action=method="post" enctype="multipart/form-data">-->
-                        <!--                            <label for="title">Photo :</label>-->
-                        <!--                            <input type="file" name="photo"/>-->
-                        <!--                            <input type="submit" class="btn btn-secondary" value="envoyer"/>-->
-                        <!--                        </form>-->
+                        <label for="title">Photo :</label>
+                        <input type="file" name="photo" value="<?php echo null ?>"/>
                     </div>
                     <div class="form-group">
                         <label for="price">Prix :</label>
-                        <input type="number" class="form-control" placeholder="0.00" id="price" name="price" required value="<?php echo $annonce->price ?>">
+                        <input type="number" class="form-control" placeholder="0.00" id="price" name="price" required
+                               value="<?php echo $annonce->price ?>">
                     </div>
                     <div class="form-group">
                         <label for="adresse">Où récupérer l'objet :</label>
-                        <input type="text" class="form-control" id="adresse" name="adresse" required value="<?php echo $annonce->place ?>">
+                        <input type="text" class="form-control" id="adresse" name="adresse" required
+                               value="<?php echo $annonce->place ?>">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantité :</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" value="<?php echo $annonce->quantity ?>">
+                        <input type="number" class="form-control" id="quantity" name="quantity"
+                               value="<?php echo $annonce->quantity ?>">
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Submit">

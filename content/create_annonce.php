@@ -1,6 +1,7 @@
 <?php
 // Include config file
 require_once 'utils/utils.php';
+require_once 'utils/upload_utils.php';
 require_once "../models/UserModel.php";
 require_once "../models/AnnonceModel.php";
 
@@ -14,21 +15,27 @@ if (!isLoggedIn()) {
 
 // Define variables and initialize with empty values
 $title = $description = $price = $place = $quantity = $photo = "";
-$title_err = $description_err = $price_err = $place_err = $quantity_err = $photo_err = "";
+$errors = array();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //Validate title
     //check if empty
     if (empty(trim($_POST['title']))) {
-        $title_err = 'Please enter a title.';
+        $errors[] = 'Please enter a title.';
     } else {
         $title = trim($_POST['title']);
     }
 
+    if (empty(trim($_POST['description']))) {
+        $errors[] = 'Please enter a description.';
+    } else {
+        $description = trim($_POST['description']);
+    }
+
 
     if (empty(trim($_POST['price']))) {
-        $price_err = 'Please set a price.';
+        $errors[] = 'Please set a price.';
     } else {
         $price = trim($_POST['price']);
     }
@@ -39,20 +46,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (true) {
-        $adresse = trim($_POST['adresse']);
+        $place = trim($_POST['adresse']);
     }
     if (true) {
         $category = trim($_POST['category']);
     }
+    $dir = 'img/annonces/';
+
+    $filename = tempnam($dir, 'IMG_');
+    unlink($filename);
+    $photo = substr($filename, strpos($filename, "IMG_"));
+    if (!$dir = uploadImage($filename)) {
+        $errors[] = "A problem occured while uploading the image.";
+    }
 
 
-
-
-    if (empty($title_err) && empty($_err) && empty($_err) && empty($_err)) {
+    if (empty($errors)) {
         $user_email = $_SESSION['user']->email;
-        AnnonceModel::insererAnnonce($title, $description, $quantity, $adresse, $user_email, $price, $category, $photo);
-    } else {
-        $title_err = $password_err = $price_err = $adresse_mail_err = $numero_telephone_err = $adresse_err = "";
+        $res = AnnonceModel::insererAnnonce($title, $description, $quantity, $place, $user_email, $price, $category, $photo);
+        if ($res)
+            header('location: mes_annonces.php?id=' . $id);
+        else $errors[] = "Error inserting annonce";
     }
 
 }
@@ -67,36 +81,45 @@ get_header();
         <div class="row">
             <div class="col-md-4 ">
                 <h1 class="h3 mb-3 fw-normal">Créer une annonce</h1>
+                <?php
+                foreach ($errors as $error)
+                    echo "<li style='color: red'>$error</li>"
+                ?>
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="title">Titre de l'annonce:</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
+                        <input type="text" class="form-control" id="title" name="title" required
+                               value="<?php echo $title ?>">
                     </div>
                     <div class="form-group">
                         <label for="category">Category:</label>
                         <?php
-                        get_categories_select();
+                        get_categories_select($category ?? null);
                         ?>
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea class="form-control" id="password" name="description" required></textarea>
+                        <textarea class="form-control" id="description" name="description"
+                                  required><?php echo $description ?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="title">Photo :</label>
-                        <input type="file" name="photo"/>
+                        <input type="file" name="photo" value="<?php echo $_FILES['photo']['name'] ?? null ?>"/>
                     </div>
                     <div class="form-group">
                         <label for="price">Prix :</label>
-                        <input type="number" class="form-control" placeholder="0.00" id="price" name="price" required>
+                        <input type="number" class="form-control" placeholder="0.00" step="0.01" id="price" name="price"
+                               required value="<?php echo $price ?>">
                     </div>
                     <div class="form-group">
                         <label for="adresse">Où récupérer l'objet :</label>
-                        <input type="text" class="form-control" id="adresse" name="adresse" required>
+                        <input type="text" class="form-control" id="adresse" name="adresse" required
+                               value="<?php echo $place ?>">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantité :</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity">
+                        <input type="number" class="form-control" id="quantity" name="quantity"
+                               value="<?php echo $quantity ?>">
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Submit">

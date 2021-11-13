@@ -54,7 +54,7 @@ function get_categories_select($selected = null)
     $categories = CategoryModel::getCategories();
     echo '<select class="input-select" name="category">';
     foreach ($categories as $cat) {
-        echo "<option value='{$cat->id}' " . ($selected == $cat->id ? "selected" : "") ."> " . $cat->nom . "</option>";
+        echo "<option value='{$cat->id}' " . ($selected == $cat->id ? "selected" : "") . "> " . $cat->nom . "</option>";
     }
     echo '</select>';
 }
@@ -288,11 +288,11 @@ function get_annonce($annonce = null)
     $category = $annonce->category->nom;
     $description = $annonce->description;
     $price = $annonce->price;
-
+    $photo = $annonce->photo;
     echo '
 <div class="product">
 <div class="product-img">
-                                        <img src="./img/product01.png" alt="">
+                                        <img src="./img/annonces/' . $photo . '" alt="">
                                         <div class="product-label">
                                         </div>
                                     </div>
@@ -332,19 +332,7 @@ function get_annonce_details($annonce)
             <div class="col-md-5 col-md-push-2">
                 <div id="product-main-img">
                     <div class="product-preview">
-                        <img src="./img/product01.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="./img/product03.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="./img/product06.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="./img/product08.png" alt="">
+                        <img src="./img/annonces/' . $annonce->photo . '" alt="">
                     </div>
                 </div>
             </div>
@@ -354,20 +342,9 @@ function get_annonce_details($annonce)
             <div class="col-md-2  col-md-pull-5">
                 <div id="product-imgs">
                     <div class="product-preview">
-                        <img src="./img/product01.png" alt="">
+                        <img src="./img/annonces/' . $annonce->photo . '" alt="">
                     </div>
 
-                    <div class="product-preview">
-                        <img src="./img/product03.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="./img/product06.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="./img/product08.png" alt="">
-                    </div>
                 </div>
             </div>
             <!-- /Product thumb imgs -->

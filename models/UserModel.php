@@ -50,12 +50,26 @@ class UserModel
         return false;
     }
 
+    public static function updatePassword($user, $password)
+    {
+        if (!$user)
+            return false;
+        $dbh = Database::connect();
+        if (!is_null(UserModel::getUser($user->email))) {
+            $sth = $dbh->prepare("UPDATE `users` SET `password` = ? WHERE `email` = ?");
+            $sth->execute(array(password_hash($password, PASSWORD_DEFAULT), $user->email));
+            return true;
+        }
+        $dbh = null;
+        return false;
+    }
+
     public static function insererUtilisateur($password, $phone, $address, $email)
     {
         $dbh = Database::connect();
         if (is_null(UserModel::getUser($email))) {
             $sth = $dbh->prepare("INSERT INTO `users` (`password`, `phone`, `address`, `email`) VALUES(?,?,?,?)");
-            $sth->execute(array( password_hash($password, PASSWORD_DEFAULT), $phone, $address, $email));
+            $sth->execute(array(password_hash($password, PASSWORD_DEFAULT), $phone, $address, $email));
         }
         $dbh = null;
     }

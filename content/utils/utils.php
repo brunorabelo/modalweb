@@ -49,15 +49,16 @@ HEAD;
 
 }
 
-function get_categories_select()
+function get_categories_select($selected = null)
 {
     $categories = CategoryModel::getCategories();
     echo '<select class="input-select" name="category">';
     foreach ($categories as $cat) {
-        echo "<option value='{$cat->id}'> " . $cat->nom . "</option>";
+        echo "<option value='{$cat->id}' " . ($selected == $cat->id ? "selected" : "") ."> " . $cat->nom . "</option>";
     }
     echo '</select>';
 }
+
 
 function get_search()
 {
@@ -284,7 +285,7 @@ function get_navigation($tab = 0)
 function get_annonce($annonce = null)
 {
     $title = $annonce->title;
-    $category = $annonce->category_id;
+    $category = $annonce->category->nom;
     $description = $annonce->description;
     $price = $annonce->price;
 
@@ -304,11 +305,98 @@ function get_annonce($annonce = null)
                                         </h4>
                                     </div>
                                     <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart
-                                        </button>
+                                        <a href="details.php?id=' . $annonce->id . '"><button class="add-to-cart-btn"><i class="fa fa-info-circle"></i> Details
+                                        </button></a>
                                     </div>
                                 </div>
                                 <!-- /product -->';
+}
+
+
+function get_annonce_details($annonce)
+{
+    $editButton = '';
+    $deleteButton = '';
+    if (isLoggedIn()) {
+        $editButton = '<a href="edit_annonce.php?id=' . $annonce->id . '"><button class="add-to-cart-btn" ><i class="fa fa-edit"></i> Edit</button></a>';
+        $deleteButton = '<a href="delete_annonce.php?id=' . $annonce->id . '"><button class="add-to-cart-btn"><i class="fa fa-trash"></i> Supprimer</button></a>';
+    }
+    echo '
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!-- Product main img -->
+            <div class="col-md-5 col-md-push-2">
+                <div id="product-main-img">
+                    <div class="product-preview">
+                        <img src="./img/product01.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product03.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product06.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product08.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- /Product main img -->
+
+            <!-- Product thumb imgs -->
+            <div class="col-md-2  col-md-pull-5">
+                <div id="product-imgs">
+                    <div class="product-preview">
+                        <img src="./img/product01.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product03.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product06.png" alt="">
+                    </div>
+
+                    <div class="product-preview">
+                        <img src="./img/product08.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <!-- /Product thumb imgs -->
+
+            <!-- Product details -->
+            <div class="col-md-5">
+                <div class="product-details">
+                    <h2 class="product-name">' . $annonce->title . '</h2>
+
+                    <div>
+                        <h3 class="product-price">€ ' . $annonce->price . '</h3>
+                    </div>
+                    <p>' . $annonce->description . '</p>
+                    
+                    <div class="add-to-cart">
+                    ' . $editButton . '
+                    ' . $deleteButton . '
+                    </div>
+                </div>
+            </div>
+            <!-- /Product details -->
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->
+';
 }
 
 
@@ -360,6 +448,33 @@ function list_products($annonces = null)
     </div>
     <!-- /container -->
 </div>';
+
+}
+
+function get_breadcrumb($annonce)
+{
+    $category = $annonce->category;
+    echo '
+        <!-- BREADCRUMB -->
+<div id="breadcrumb" class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="breadcrumb-tree">
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="index.php">All Categories</a></li>
+                    <li><a href="index.php?category=' . $category->id . '">' . $category->nom . '</a></li>
+                    <li class="active">' . $annonce->title . '</li>
+                </ul>
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /BREADCRUMB -->';
 
 }
 

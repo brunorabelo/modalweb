@@ -68,7 +68,7 @@ get_header();
                     ?>
                     <div class="form-group">
                         <label for="floatingInput">Email address:</label>
-                        <input type="email" class="form-control" name="email" id="floatingInput"
+                        <input type="text" class="form-control" name="email" id="floatingInput"
                                placeholder="name@example.com">
                     </div>
                     <div class="form-group">

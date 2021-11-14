@@ -11,6 +11,7 @@ function uploadImage($filename)
             return false;
         }
         if (exif_imagetype($_FILES['photo']['tmp_name'])) {
+            echo 'ici';
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $filename)) {
                 return true;
             }

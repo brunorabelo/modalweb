@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 01/10/2021 às 15:36
+-- Tempo de geração: 14/11/2021 às 11:16
 -- Versão do servidor: 10.4.13-MariaDB
 -- Versão do PHP: 7.4.8
 
@@ -31,11 +31,11 @@ CREATE TABLE `annonce` (
   `id` int(11) NOT NULL,
   `title` varchar(200) NOT NULL,
   `description` text NOT NULL,
-  `price` decimal(10,0) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
   `place` text NOT NULL,
   `photo` text NOT NULL,
   `category_id` int(11) NOT NULL,
-  `username` varchar(150) NOT NULL,
+  `user_email` varchar(150) NOT NULL,
   `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -58,7 +58,6 @@ CREATE TABLE `categories` (
 
 CREATE TABLE `panier` (
   `id` int(11) NOT NULL,
-  `username` varchar(100) NOT NULL,
   `annonce_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -70,11 +69,12 @@ CREATE TABLE `panier` (
 
 CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
   `password` varchar(150) NOT NULL,
-  `phone` int(11) NOT NULL,
+  `nom` varchar(150) DEFAULT NULL,
+  `prenom` varchar(150) DEFAULT NULL,
+  `phone` varchar(20) NOT NULL,
   `address` text NOT NULL,
-  `is_admin` tinyint(1) NOT NULL
+  `is_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -87,7 +87,8 @@ CREATE TABLE `users` (
 ALTER TABLE `annonce`
   ADD PRIMARY KEY (`id`),
   ADD KEY `category_id` (`category_id`),
-  ADD KEY `username` (`username`);
+  ADD KEY `username` (`user_email`);
+ALTER TABLE `annonce` ADD FULLTEXT KEY `title` (`title`,`description`,`place`);
 
 --
 -- Índices de tabela `categories`
@@ -99,20 +100,24 @@ ALTER TABLE `categories`
 -- Índices de tabela `panier`
 --
 ALTER TABLE `panier`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`username`),
-  ADD UNIQUE KEY `username` (`username`),
+  ADD PRIMARY KEY (`email`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT de tabelas apagadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `annonce`
+--
+ALTER TABLE `annonce`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `categories`
@@ -128,14 +133,7 @@ ALTER TABLE `categories`
 -- Restrições para tabelas `annonce`
 --
 ALTER TABLE `annonce`
-  ADD CONSTRAINT `annonce_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `annonce_ibfk_3` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Restrições para tabelas `panier`
---
-ALTER TABLE `panier`
-  ADD CONSTRAINT `panier_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `annonce_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

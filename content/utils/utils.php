@@ -145,7 +145,7 @@ function get_header()
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="/content" class="logo">
-                            <img src="./img/logo.png"   height="60" alt="">
+                            <img src="./img/logo.png" height="62" alt="">
                         </a>
                     </div>
                 </div>

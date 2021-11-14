@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['send'] == 'delete') {
         CategoryModel::deleteCategory($id);
         header("location: categories.php");
+        exit;
     }
     if (empty(trim($_POST['category_name']))) {
         $errors[] = "Insert category name";
@@ -38,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         CategoryModel::updateCategory($id, $category_name);
         $success = true;
         header("location: categories.php");
+        exit;
     }
 
 }

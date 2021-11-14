@@ -4,8 +4,10 @@ require_once 'utils/utils.php';
 
 require_once "../models/AnnonceModel.php";
 
-if (!isLoggedIn())
+if (!isLoggedIn()) {
     header('location: index.php');
+    exit;
+}
 
 $id = null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -17,22 +19,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $annonce = AnnonceModel::getAnnonceDetails($id);
 
     $annonce = AnnonceModel::getAnnonceDetails($id);
-    if ($annonce->user_email != $_SESSION['user']->email)
+    if ($annonce->user_email != $_SESSION['user']->email) {
         header('location: mes_annonces.php');
+        exit;
+    }
 
     AnnonceModel::deleteAnnonce($annonce->id);
     $file = 'img/annonces/' . $annonce->photo;
     unlink($file);
     header('location: mes_annonces.php');
+    exit;
 }
 
-if (!$id)
+if (!$id) {
     header('location: index.php');
+    exit;
+}
 
 $annonce = AnnonceModel::getAnnonceDetails($id);
 
-if (!$annonce)
+if (!$annonce) {
     header('location: index.php');
+    exit;
+}
 
 get_head();
 

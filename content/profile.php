@@ -17,6 +17,11 @@ $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    if ($_POST['send'] == 'delete') {
+        UserModel::deleteUser($_SESSION['user']->email);
+        header('location: logout.php');
+        exit;
+    }
 
     // Check if nom is empty
     if (empty(trim($_POST['nom']))) {
@@ -71,7 +76,8 @@ get_profile_navigation(0);
             <form action="" method="post">
                 <div class="form-group">
                     <label for="nom">Nom:</label>
-                    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo htmlspecialchars($user->nom) ?>">
+                    <input type="text" class="form-control" id="nom" name="nom"
+                           value="<?php echo htmlspecialchars($user->nom) ?>">
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prénom:</label>
@@ -94,7 +100,21 @@ get_profile_navigation(0);
                            value="<?php echo htmlspecialchars($user->email) ?>" disabled>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Modifier">
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <button type="submit" name="send" value="update" class="btn btn-primary">Modifier
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <button type="submit" name="send" value="delete" class="btn btn-danger"
+                                    onclick="return confirm('All the annonces related to the user will be deleted. Are you sure you want to continue?');">
+                                Delete user
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

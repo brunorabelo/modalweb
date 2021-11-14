@@ -64,8 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
         $user_email = $_SESSION['user']->email;
         $res = AnnonceModel::insererAnnonce($title, $description, $quantity, $place, $user_email, $price, $category, $photo);
-        if ($res)
+        if ($res) {
             header('location: mes_annonces.php');
+            exit;
+        }
         else $errors[] = "Error inserting annonce";
     }
 

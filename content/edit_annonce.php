@@ -15,8 +15,10 @@ $annonce = null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $id = $_GET['id'] ?? null;
     $annonce = AnnonceModel::getAnnonceDetails($id);
-    if (!$id || !$annonce || !checkAuthorization($annonce->user_email))
+    if (!$id || !$annonce || !checkAuthorization($annonce->user_email)) {
         header("location: mes_annonces.php");
+        exit;
+    }
 }
 
 // Define variables and initialize with empty values

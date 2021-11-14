@@ -17,8 +17,10 @@ $email = '';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $email = $_GET['user'] ?? null;
 }
-if (!$email)
+if (!$email) {
     header('location: users.php');
+    exit;
+}
 
 $nom = $prenom = $newEmail = $adresse = $numero_telephone = $password = "";
 
@@ -28,7 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($_POST['send'] == 'delete') {
         UserModel::deleteUser($email);
-        header("location: users.php");
+        if ($email === $_SESSION['user']->email)
+            header('location: logout.php');
+        else
+            header("location: users.php");
+        exit;
     }
     // Check if nom is empty
     if (empty(trim($_POST['nom']))) {
@@ -67,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         UserModel::updateUserByAdmin($email, $newEmail, $nom, $prenom, $numero_telephone, $adresse, $password, $is_admin);
         $success = true;
         header('location: users.php');
+        exit;
     }
 }
 
@@ -124,7 +131,8 @@ get_profile_navigation(3);
                     </div>
                     <div class="form-group">
                         <label for="is_admin">Admin:</label>
-                        <input type="checkbox" id="is_admin" name="is_admin" value="1" <?php echo $user->is_admin ? 'checked' : '' ?>>
+                        <input type="checkbox" id="is_admin" name="is_admin"
+                               value="1" <?php echo $user->is_admin ? 'checked' : '' ?>>
                     </div>
 
                     <div class="col-md-3">

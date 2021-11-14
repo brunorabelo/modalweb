@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect to user to page
             header('location: index.php');
+            exit;
         } else {
             $errors[] = "Email or password invalid.";
         }

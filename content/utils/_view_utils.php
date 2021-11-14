@@ -67,11 +67,11 @@ function get_search()
     }
     echo '
     <!-- SEARCH BAR -->
-    <div class="col-md-6">
+    <div class="col-md-8">
         <div class="header-search">
-            <form method="get" action="search.php">
-    <select class="input-select" name="category">
-    <option value="0"' . (!$category ? "" : "selected") . '>All Categories</option>';
+            <form class="form-inline" method="get" action="search.php">
+            <select class="input-select" name="category">
+            <option value="0"' . (!$category ? "" : "selected") . '>All Categories</option>';
     foreach ($categories as $cat) {
         echo "<option value='{$cat->id}'" . ($category == $cat->id ? "selected" : "") . "> " . htmlspecialchars($cat->nom) . "</option>";
     }
@@ -136,7 +136,7 @@ function get_header()
     get_search();
 
     echo '<!-- ACCOUNT -->
-                <div class="col-md-3 clearfix">
+                <div class="col-md-1 clearfix">
                     <div class="header-ctn">
                         <!-- Cart 
                         <div class="dropdown">
@@ -439,7 +439,7 @@ function get_breadcrumb($annonce)
                     <li><a href="index.php">Home</a></li>
                     <li><a href="index.php">All Categories</a></li>
                     <li><a href="index.php?category=' . $category->id . '">' . htmlspecialchars($category->nom) . '</a></li>
-                    <li class="active">' .htmlspecialchars($annonce->title) . '</li>
+                    <li class="active">' . htmlspecialchars($annonce->title) . '</li>
                 </ul>
             </div>
         </div>
@@ -514,4 +514,5 @@ function get_footer()
 FOOTER;
 
 }
+
 ?>

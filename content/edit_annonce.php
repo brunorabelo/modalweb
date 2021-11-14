@@ -126,7 +126,7 @@ get_header();
                         <div class="container">
                             <!-- row -->
                             <div class="row">
-                                <img src="./img/annonces/<?php echo htmlspecialchars($annonce->photo) ?>" alt="">
+                                <img src="./img/annonces/<?php echo htmlspecialchars($annonce->photo) ?>" alt="" style="max-height: 250px">
                             </div>
                         </div>
                         <label for="photo">Photo :</label>

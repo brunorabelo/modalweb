@@ -10,12 +10,12 @@ $categories = CategoryModel::getCategories();
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $category = $_GET['category'] ?? null;
     $search = $_GET['search'] ?? null;
-
     $annonces = AnnonceModel::getAnnonces($search, $category);
 }
 
 get_head();
 get_header();
+get_navigation($category);
 list_products($annonces);
 get_footer();
 

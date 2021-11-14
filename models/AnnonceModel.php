@@ -14,20 +14,27 @@ class AnnonceModel
     public string $user_email;
     public string $quantity;
     public CategoryModel $category;
+    public UserModel $user;
 
-    public static function getAnnonces($search, $category = null)
+    public static function getAnnonces($search = null, $category = null)
     {
         $dbh = Database::connect();
-        $query = "SELECT * FROM annonce WHERE MATCH (title,description, place) AGAINST (? IN BOOLEAN MODE) AND ( category_id = ? ";
+        $query = "SELECT a.*, c.nom FROM annonce AS a JOIN categories AS c on a.category_id = c.id WHERE MATCH (title,description, place) AGAINST (? IN BOOLEAN MODE) AND ( category_id = ? ";
+        if (!$search || empty(trim($search))){
+            $query = "SELECT a.*, c.nom FROM annonce AS a JOIN categories AS c on a.category_id = c.id WHERE (title = ? OR 1=1) AND ( category_id = ? ";
+        }
         if ($category) {
             $query = $query . ")";
         } else {
             $query = $query . "OR 1=1)";
         }
         $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'AnnonceModel');
+
         $sth->execute([$search, $category]);
-        $annonces = $sth->fetchAll();
+        $annonces = array();
+        while (($row = $sth->fetch(PDO::FETCH_ASSOC)) !== false) {
+            $annonces[] = self::annonceFromRow($row);
+        }
         $sth->closeCursor();
 
         $dbh = null;
@@ -50,6 +57,12 @@ class AnnonceModel
         $category->id = $row['category_id'];
         $category->nom = $row['nom'];
         $annonce->category = $category;
+        if (isset($row['user_nom'])){
+            $user = new UserModel();
+            $user->prenom = $row['user_prenom'];
+            $user->nom = $row['user_nom'];
+            $annonce->user = $user;
+        }
         return $annonce;
     }
 
@@ -57,7 +70,7 @@ class AnnonceModel
     {
 
         $dbh = Database::connect();
-        $query = "SELECT a.*, c.nom FROM `annonce` as a join categories as c on a.category_id=c.id WHERE a.id = ?";
+        $query = "SELECT a.*, c.nom, u.nom as 'user_nom', u.prenom as 'user_prenom'  FROM `annonce` as a join categories as c on a.category_id=c.id join `users` as u on u.email=a.user_email WHERE a.id = ?";
         $sth = $dbh->prepare($query);
 //        $sth->setFetchMode(PDO::FETCH_CLASS, 'AnnonceModel');
         $sth->execute([$id]);

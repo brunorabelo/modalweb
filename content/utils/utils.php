@@ -110,13 +110,13 @@ function get_header()
     $url = "login.php";
     $bienvenue = "";
     $logout = "";
-    $signup = '<li><a href="signup.php"><i class="fa fa-user-o"></i>Signup</a></li>';
+    $signup = '<li><a href="signup.php"><i class="fa fa-plus"></i>Signup</a></li>';
     // Check if the user is already logged in, if yes then redirect him to welcome page
     if (isLoggedIn()) {
         $bienvenue = "Welcome " . $_SESSION["user"]->nom . " " . $_SESSION['user']->prenom;
         $text = "My Account";
         $url = "profile.php";
-        $logout = '<li><a href="logout.php"><i class="fa fa-user-o"></i>Logout</a></li>';
+        $logout = '<li><a href="logout.php"><i class="fa fa-sign-out"></i>Logout</a></li>';
         $signup = '';
     }
 
@@ -145,7 +145,7 @@ function get_header()
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="/content" class="logo">
-                            <img src="./img/logo.png" alt="">
+                            <img src="./img/logo.png"   height="60" alt="">
                         </a>
                     </div>
                 </div>
@@ -259,8 +259,13 @@ function get_profile_navigation($tab = 0)
 ';
 }
 
-function get_navigation($tab = 0)
+function get_navigation($tab = -1)
 {
+    $categories = CategoryModel::getCategories();
+    $categoriesNav = '';
+    foreach ($categories as $category) {
+        $categoriesNav = $categoriesNav . "<li " . ($tab == $category->id ? 'class="active"' : '') . "><a href='search.php?category=" . $category->id . "'>" . $category->nom . "</a></li>";
+    }
     echo '
 <!-- NAVIGATION -->
 <nav id="navigation">
@@ -270,11 +275,8 @@ function get_navigation($tab = 0)
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li ' . ($tab == 0 ? 'class="active"' : '') . ' ><a href="#">Home</a></li>
-                <li><a href="#">Laptops</a></li>
-                <li><a href="#">Smartphones</a></li>
-                <li><a href="#">Cameras</a></li>
-                <li><a href="#">Accessories</a></li>
+                <li ' . ($tab == 0 ? 'class="active"' : '') . ' ><a href="index.php">Home</a></li>
+                ' . $categoriesNav . '
             </ul>
             <!-- /NAV -->
         </div>
@@ -376,6 +378,7 @@ function get_annonce_details($annonce)
                         <h3 class="product-price">€ ' . $annonce->price . '</h3>
                     </div>
                     <p>' . $annonce->description . '</p>
+                    <p><b>Annonced by: '. $annonce->user->nom . " " . $annonce->user->prenom . '</b></p>
                     
                     <div class="add-to-cart">
                     ' . $editButton . '
@@ -485,59 +488,14 @@ function get_footer()
         <div class="container">
             <!-- row -->
             <div class="row">
-                <div class="col-md-3 col-xs-6">
+                <div class="col-md-offset-5 col-xs-3">
                     <div class="footer">
-                        <h3 class="footer-title">About Us</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                            ut.</p>
-                        <ul class="footer-links">
-                            <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
-                            <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-                            <li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
-                        </ul>
+                        <h3 class="footer-title">Modalweb</h3>
+                        <p>Modalweb is a website for students.</p>
                     </div>
                 </div>
 
-                <div class="col-md-3 col-xs-6">
-                    <div class="footer">
-                        <h3 class="footer-title">Categories</h3>
-                        <ul class="footer-links">
-                            <li><a href="#">Hot deals</a></li>
-                            <li><a href="#">Laptops</a></li>
-                            <li><a href="#">Smartphones</a></li>
-                            <li><a href="#">Cameras</a></li>
-                            <li><a href="#">Accessories</a></li>
-                        </ul>
-                    </div>
-                </div>
 
-                <div class="clearfix visible-xs"></div>
-
-                <div class="col-md-3 col-xs-6">
-                    <div class="footer">
-                        <h3 class="footer-title">Information</h3>
-                        <ul class="footer-links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Orders and Returns</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-xs-6">
-                    <div class="footer">
-                        <h3 class="footer-title">Service</h3>
-                        <ul class="footer-links">
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">View Cart</a></li>
-                            <li><a href="#">Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
-                        </ul>
-                    </div>
-                </div>
             </div>
             <!-- /row -->
         </div>
@@ -551,14 +509,6 @@ function get_footer()
             <!-- row -->
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <ul class="footer-payments">
-                        <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-                        <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-                        <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-                    </ul>
                     <span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i

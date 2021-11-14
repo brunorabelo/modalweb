@@ -8,7 +8,7 @@ get_head();
 
 get_header();
 
-get_navigation();
+get_navigation(0);
 
 $annonces = AnnonceModel::getAllAnnonces();
 

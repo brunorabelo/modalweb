@@ -66,7 +66,7 @@ get_profile_navigation(4);
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <button type="submit" name="send" value="delete" class="btn btn-danger">Delete category</button>
+                        <button type="submit" name="send" value="delete" class="btn btn-danger" onclick="return confirm('All the annonces related to te category will be deleted. Are you sure you want to continue?');">Delete category</button>
                     </div>
                 </div>
             </form>

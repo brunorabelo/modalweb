@@ -21,25 +21,6 @@ get_profile_navigation(3);
 $users = UserModel::getAllUsers();
 
 ?>
-    <div class="section">
-        <div class="container">
-            <div class="row">
-                <form action="" method="post">
-                    <div class="col-md-4">
-                        <div class="form-group mb-3">
-                            <input type="text" name="category_name" id="category_name"
-                                   placeholder="Category name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Add category</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <div class="section">
         <div class="container">';

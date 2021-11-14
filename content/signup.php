@@ -19,12 +19,12 @@ $success = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
-    // Check if nom is empty
+// Check if nom is empty
     if (empty(trim($_POST['nom']))) {
         $errors[] = 'Please enter your nom.';
     } else $nom = $_POST['nom'];
 
-    // check if prenom is empty
+// check if prenom is empty
     if (empty(trim($_POST['prenom']))) {
         $errors[] = 'Please enter your prenom.';
     } else $prenom = $_POST['prenom'];
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    // Check if password is empty
+// Check if password is empty
     if (empty(trim($_POST['password']))) {
         $errors[] = 'Please enter your password.';
     }
@@ -67,8 +67,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail, $nom, $prenom);
         $success = true;
 
-    }
+        $user = UserModel::login($adresse_mail, $password);
+        if ($user) {
+            // Start a new session
+            session_start();
 
+            // Store data in sessions
+            $_SESSION['loggedin'] = true;
+            $_SESSION['user'] = $user;
+
+            // Redirect to user to page
+            header('location: index.php');
+            exit;
+        }
+
+    }
 }
 
 
@@ -90,11 +103,13 @@ get_header();
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="nom">Nom:</label>
-                        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo htmlspecialchars($nom) ?>">
+                        <input type="text" class="form-control" id="nom" name="nom"
+                               value="<?php echo htmlspecialchars($nom) ?>">
                     </div>
                     <div class="form-group">
                         <label for="prenom">Prénom:</label>
-                        <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo htmlspecialchars($prenom) ?>">
+                        <input type="text" class="form-control" id="prenom" name="prenom"
+                               value="<?php echo htmlspecialchars($prenom) ?>">
                     </div>
                     <div class="form-group">
                         <label for="numero_telephone">Numéro de téléphone:</label>

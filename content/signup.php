@@ -90,26 +90,26 @@ get_header();
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="nom">Nom:</label>
-                        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $nom ?>">
+                        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo htmlspecialchars($nom) ?>">
                     </div>
                     <div class="form-group">
                         <label for="prenom">Prénom:</label>
-                        <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $prenom ?>">
+                        <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo htmlspecialchars($prenom) ?>">
                     </div>
                     <div class="form-group">
                         <label for="numero_telephone">Numéro de téléphone:</label>
                         <input type="tel" class="form-control" id="numero_telephone" name="numero_telephone"
-                               value="<?php echo $numero_telephone ?>">
+                               value="<?php echo htmlspecialchars($numero_telephone) ?>">
                     </div>
                     <div class="form-group">
                         <label for="adresse">Adresse:</label>
                         <input type="text" class="form-control" id="adresse" name="adresse"
-                               value="<?php echo $adresse ?>">
+                               value="<?php echo htmlspecialchars($adresse) ?>">
                     </div>
                     <div class="form-group">
                         <label for="adresse_mail">Adresse mail:</label>
                         <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required
-                               value="<?php echo $adresse_mail ?>">
+                               value="<?php echo htmlspecialchars($adresse_mail) ?>">
                     </div>
                     <div class="form-group">
                         <label for="password">Mot de passe:</label>

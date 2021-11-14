@@ -102,7 +102,7 @@ get_header();
                     <div class="form-group">
                         <label for="title">Titre de l'annonce:</label>
                         <input type="text" class="form-control" id="title" name="title" required
-                               value="<?php echo $annonce->title ?>">
+                               value="<?php echo htmlspecialchars($annonce->title) ?>">
                     </div>
                     <div class="form-group">
                         <label for="category">Category:</label>
@@ -113,7 +113,7 @@ get_header();
                     <div class="form-group">
                         <label for="description">Description:</label>
                         <textarea class="form-control" id="description" name="description"
-                                  required><?php echo $annonce->description ?></textarea>
+                                  required><?php echo htmlspecialchars($annonce->description) ?></textarea>
                     </div>
                     <div class="form-group">
                         <label>Current Photo: </label>
@@ -121,7 +121,7 @@ get_header();
                         <div class="container">
                             <!-- row -->
                             <div class="row">
-                                <img src="./img/annonces/<?php echo $annonce->photo ?>" alt="">
+                                <img src="./img/annonces/<?php echo htmlspecialchars($annonce->photo) ?>" alt="">
                             </div>
                         </div>
                         <label for="photo">Photo :</label>
@@ -131,17 +131,17 @@ get_header();
                         <label for="price">Prix :</label>
                         <input type="number" class="form-control" placeholder="0.00" step="0.01" id="price" name="price"
                                required
-                               value="<?php echo $annonce->price ?>">
+                               value="<?php echo htmlspecialchars($annonce->price) ?>">
                     </div>
                     <div class="form-group">
                         <label for="adresse">Où récupérer l'objet :</label>
                         <input type="text" class="form-control" id="adresse" name="adresse" required
-                               value="<?php echo $annonce->place ?>">
+                               value="<?php echo htmlspecialchars($annonce->place) ?>">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantité :</label>
                         <input type="number" class="form-control" id="quantity" name="quantity"
-                               value="<?php echo $annonce->quantity ?>">
+                               value="<?php echo htmlspecialchars($annonce->quantity) ?>">
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Submit">

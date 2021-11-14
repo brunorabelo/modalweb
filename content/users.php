@@ -28,8 +28,8 @@ $users = UserModel::getAllUsers();
             foreach ($users as $user) {
                 echo '<div class="row">';
                 echo '<div class="col-md-12">';
-                echo '<div class="col-md-4"><h3>' . $user->email . '</h3></div>';
-                echo '<div class="col-md-2"><a href="admin.php?user=' . $user->email . '" type="button" class="btn btn-warning">Edit</a></div>';
+                echo '<div class="col-md-4"><h3>' . htmlspecialchars($user->email) . '</h3></div>';
+                echo '<div class="col-md-2"><a href="admin.php?user=' . htmlspecialchars($user->email) . '" type="button" class="btn btn-warning">Edit</a></div>';
                 echo '</div>';
                 echo '</div>';
             }

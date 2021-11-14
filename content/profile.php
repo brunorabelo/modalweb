@@ -71,27 +71,27 @@ get_profile_navigation(0);
             <form action="" method="post">
                 <div class="form-group">
                     <label for="nom">Nom:</label>
-                    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $user->nom ?>">
+                    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo htmlspecialchars($user->nom) ?>">
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prénom:</label>
                     <input type="text" class="form-control" id="prenom" name="prenom"
-                           value="<?php echo $user->prenom ?>">
+                           value="<?php echo htmlspecialchars($user->prenom) ?>">
                 </div>
                 <div class="form-group">
                     <label for="numero_telephone">Numéro de téléphone:</label>
                     <input type="tel" class="form-control" id="numero_telephone" name="numero_telephone"
-                           value="<?php echo $user->phone ?>">
+                           value="<?php echo htmlspecialchars($user->phone) ?>">
                 </div>
                 <div class="form-group">
                     <label for="adresse">Adresse:</label>
                     <input type="text" class="form-control" id="adresse" name="adresse"
-                           value="<?php echo $user->address ?>">
+                           value="<?php echo htmlspecialchars($user->address) ?>">
                 </div>
                 <div class="form-group">
                     <label for="adresse_mail">Adresse mail:</label>
                     <input type="text" class="form-control" id="adresse_mail" name="adresse_mail"
-                           value="<?php echo $user->email ?>" disabled>
+                           value="<?php echo htmlspecialchars($user->email) ?>" disabled>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Modifier">

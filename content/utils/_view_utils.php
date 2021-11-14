@@ -51,7 +51,7 @@ function get_categories_select($selected = null)
     $categories = CategoryModel::getCategories();
     echo '<select class="input-select" name="category">';
     foreach ($categories as $cat) {
-        echo "<option value='{$cat->id}' " . ($selected == $cat->id ? "selected" : "") . "> " . $cat->nom . "</option>";
+        echo "<option value='{$cat->id}' " . ($selected == $cat->id ? "selected" : "") . "> " . htmlspecialchars($cat->nom) . "</option>";
     }
     echo '</select>';
 }
@@ -73,11 +73,11 @@ function get_search()
     <select class="input-select" name="category">
     <option value="0"' . (!$category ? "" : "selected") . '>All Categories</option>';
     foreach ($categories as $cat) {
-        echo "<option value='{$cat->id}'" . ($category == $cat->id ? "selected" : "") . "> " . $cat->nom . "</option>";
+        echo "<option value='{$cat->id}'" . ($category == $cat->id ? "selected" : "") . "> " . htmlspecialchars($cat->nom) . "</option>";
     }
     echo '
                 </select>
-                <input class="input" placeholder="Search here" name="search" value="' . $search . '">
+                <input class="input" placeholder="Search here" name="search" value="' . htmlspecialchars($search) . '">
                 <button class="search-btn">Search</button>
             </form>
         </div>
@@ -96,7 +96,7 @@ function get_header()
     $signup = '<li><a href="signup.php"><i class="fa fa-plus"></i>Signup</a></li>';
     // Check if the user is already logged in, if yes then redirect him to welcome page
     if (isLoggedIn()) {
-        $bienvenue = "Welcome " . $_SESSION["user"]->nom . " " . $_SESSION['user']->prenom;
+        $bienvenue = "Welcome " . htmlspecialchars($_SESSION["user"]->nom) . " " . htmlspecialchars($_SESSION['user']->prenom);
         $text = "My Account";
         $url = "profile.php";
         $logout = '<li><a href="logout.php"><i class="fa fa-sign-out"></i>Logout</a></li>';
@@ -247,7 +247,7 @@ function get_navigation($tab = -1)
     $categories = CategoryModel::getCategories();
     $categoriesNav = '';
     foreach ($categories as $category) {
-        $categoriesNav = $categoriesNav . "<li " . ($tab == $category->id ? 'class="active"' : '') . "><a href='search.php?category=" . $category->id . "'>" . $category->nom . "</a></li>";
+        $categoriesNav = $categoriesNav . "<li " . ($tab == $category->id ? 'class="active"' : '') . "><a href='search.php?category=" . $category->id . "'>" . htmlspecialchars($category->nom) . "</a></li>";
     }
     echo '
 <!-- NAVIGATION -->
@@ -275,11 +275,11 @@ function get_navigation($tab = -1)
 
 function get_annonce($annonce = null)
 {
-    $title = $annonce->title;
-    $category = $annonce->category->nom;
-    $description = $annonce->description;
-    $price = $annonce->price;
-    $photo = $annonce->photo;
+    $title = htmlspecialchars($annonce->title);
+    $category = htmlspecialchars($annonce->category->nom);
+    $description = htmlspecialchars($annonce->description);
+    $price = htmlspecialchars($annonce->price);
+    $photo = htmlspecialchars($annonce->photo);
     echo '
 <div class="product">
 <div class="product-img">
@@ -323,7 +323,7 @@ function get_annonce_details($annonce)
             <div class="col-md-5 col-md-push-2">
                 <div id="product-main-img">
                     <div class="product-preview">
-                        <img src="./img/annonces/' . $annonce->photo . '" alt="">
+                        <img src="./img/annonces/' . htmlspecialchars($annonce->photo) . '" alt="">
                     </div>
                 </div>
             </div>
@@ -333,7 +333,7 @@ function get_annonce_details($annonce)
             <div class="col-md-2  col-md-pull-5">
                 <div id="product-imgs">
                     <div class="product-preview">
-                        <img src="./img/annonces/' . $annonce->photo . '" alt="">
+                        <img src="./img/annonces/' . htmlspecialchars($annonce->photo) . '" alt="">
                     </div>
 
                 </div>
@@ -343,13 +343,13 @@ function get_annonce_details($annonce)
             <!-- Product details -->
             <div class="col-md-5">
                 <div class="product-details">
-                    <h2 class="product-name">' . $annonce->title . '</h2>
+                    <h2 class="product-name">' . htmlspecialchars($annonce->title) . '</h2>
 
                     <div>
-                        <h3 class="product-price">€ ' . $annonce->price . '</h3>
+                        <h3 class="product-price">€ ' . htmlspecialchars($annonce->price) . '</h3>
                     </div>
-                    <p>' . $annonce->description . '</p>
-                    <p><b>Annonced by: ' . $annonce->user->nom . " " . $annonce->user->prenom . '</b></p>
+                    <p>' . htmlspecialchars($annonce->description) . '</p>
+                    <p><b>Annonced by: ' . htmlspecialchars($annonce->user->nom) . " " . htmlspecialchars($annonce->user->prenom) . '</b></p>
                     
                     <div class="add-to-cart">
                     ' . $editButton . '
@@ -434,8 +434,8 @@ function get_breadcrumb($annonce)
                 <ul class="breadcrumb-tree">
                     <li><a href="index.php">Home</a></li>
                     <li><a href="index.php">All Categories</a></li>
-                    <li><a href="index.php?category=' . $category->id . '">' . $category->nom . '</a></li>
-                    <li class="active">' . $annonce->title . '</li>
+                    <li><a href="index.php?category=' . $category->id . '">' . htmlspecialchars($category->nom) . '</a></li>
+                    <li class="active">' .htmlspecialchars($annonce->title) . '</li>
                 </ul>
             </div>
         </div>

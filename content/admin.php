@@ -16,10 +16,10 @@ $success = false;
 $email = '';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $email = $_GET['user'] ?? null;
-}
-if (!$email) {
-    header('location: users.php');
-    exit;
+    if (!$email) {
+        header('location: users.php');
+        exit;
+    }
 }
 
 $nom = $prenom = $newEmail = $adresse = $numero_telephone = $password = "";
@@ -59,8 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = null;
     } else
         $password = trim($_POST['password']);
-    var_dump($_POST['is_admin']);
-
     $is_admin = 0;
     if (isset($_POST['is_admin']) && $_POST['is_admin'])
         $is_admin = 1;

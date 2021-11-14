@@ -6,7 +6,7 @@ function uploadImage($filename)
         // Le fichier a bien été téléchargé
         // Par sécurité on utilise getimagesize plutot que les variables $_FILES
         list($larg, $haut, $type, $attr) = getimagesize($_FILES['photo']['tmp_name']);
-        $taille_maxi = 3000000;//en octets ici ~3Mo
+        $taille_maxi = 6000000;//en octets ici ~3Mo
         $taille = filesize($_FILES['photo']['tmp_name']);
         if ($taille > $taille_maxi) {
             $error = 'The size of the image is too big';

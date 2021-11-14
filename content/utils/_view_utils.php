@@ -127,7 +127,7 @@ function get_header()
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="/content/index.php" class="logo">
+                        <a href="index.php" class="logo">
                             <img src="./img/logo.png" height="62" alt="">
                         </a>
                     </div>

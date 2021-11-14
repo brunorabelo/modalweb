@@ -3,7 +3,6 @@
 require_once 'utils/utils.php';
 require_once "../models/UserModel.php";
 require_once "../models/AnnonceModel.php";
-require_once 'utils/upload_utils.php';
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if (!isLoggedIn()) {

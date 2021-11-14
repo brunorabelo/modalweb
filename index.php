@@ -1,5 +1,5 @@
-<?php
-//test
-?>
 
-<h1>Home</h1>
+<?php
+    header('location: content/');
+
+    ?>

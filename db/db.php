@@ -18,31 +18,3 @@ class Database
         return $dbh;
     }
 }
-
-
-class Utilisateur
-{
-    public $login;
-    public $mdp;
-    public $nom;
-    public $prenom;
-    public $promotion;
-    public $naissance;
-    public $email;
-    public $feuille;
-
-
-    public static function getUtilisateur($dbh, $login)
-    {
-        $query = "SELECT * FROM `users` WHERE login=?";
-        $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'Utilisateur');
-        $sth->execute(array($login));
-        $user = $sth->fetch();
-        $sth->closeCursor();
-
-        if (!$user)
-            return null;
-        return $user;
-    }
-}

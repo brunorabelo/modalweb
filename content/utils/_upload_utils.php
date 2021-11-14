@@ -1,5 +1,4 @@
 <?php
-
 function uploadImage($filename)
 {
     if (!empty($_FILES['photo']['tmp_name']) && is_uploaded_file($_FILES['photo']['tmp_name'])) {
@@ -13,14 +12,10 @@ function uploadImage($filename)
         }
         if (exif_imagetype($_FILES['photo']['tmp_name'])) {
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $filename)) {
-//                echo "Copie réussie";
                 return true;
             }
         }
-//        else
-//            echo "mauvais type de fichier";
     }
     return false;
 }
-
 ?>

@@ -1,7 +1,6 @@
 <?php
 // Include config file
 require_once 'utils/utils.php';
-require_once 'utils/upload_utils.php';
 require_once "../models/UserModel.php";
 require_once "../models/AnnonceModel.php";
 

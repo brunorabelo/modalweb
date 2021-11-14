@@ -82,7 +82,7 @@ get_header();
             <h1 class="h3 mb-3 fw-normal">Créer un compte</h1>
             <?php
             if ($success)
-                echo "<p style='color: green'>Your password has been successfully changed!</p>";
+                echo "<p style='color: green'>Your account has been successfully created!</p>";
             else {
                 foreach ($errors as $error)
                     echo "<li style='color: red'>$error</li>"

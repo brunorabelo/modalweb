@@ -88,7 +88,7 @@ get_header();
                     <div class="form-group">
                         <label for="title">Titre de l'annonce:</label>
                         <input type="text" class="form-control" id="title" name="title" required
-                               value="<?php echo $title ?>">
+                               value="<?php echo htmlspecialchars($title) ?>">
                     </div>
                     <div class="form-group">
                         <label for="category">Category:</label>
@@ -99,7 +99,7 @@ get_header();
                     <div class="form-group">
                         <label for="description">Description:</label>
                         <textarea class="form-control" id="description" name="description"
-                                  required><?php echo $description ?></textarea>
+                                  required><?php echo htmlspecialchars($description) ?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="title">Photo :</label>
@@ -108,17 +108,17 @@ get_header();
                     <div class="form-group">
                         <label for="price">Prix :</label>
                         <input type="number" class="form-control" placeholder="0.00" step="0.01" id="price" name="price"
-                               required value="<?php echo $price ?>">
+                               required value="<?php echo htmlspecialchars($price) ?>">
                     </div>
                     <div class="form-group">
                         <label for="adresse">Où récupérer l'objet :</label>
                         <input type="text" class="form-control" id="adresse" name="adresse" required
-                               value="<?php echo $place ?>">
+                               value="<?php echo htmlspecialchars($place) ?>">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantité :</label>
                         <input type="number" class="form-control" id="quantity" name="quantity"
-                               value="<?php echo $quantity ?>">
+                               value="<?php echo htmlspecialchars($quantity) ?>">
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="Submit">

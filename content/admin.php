@@ -71,7 +71,7 @@ get_profile_navigation(3);
 <div class="container">
     <div class="row">
         <div class="col-md-4 ">
-            <h1 class="h3 mb-3 fw-normal">Modifier compte de <? echo $user->email ?></h1>
+            <h1 class="h3 mb-3 fw-normal">Modifier compte de <? echo htmlspecialchars($user->email) ?></h1>
 
             <?php
             if ($success)
@@ -82,25 +82,25 @@ get_profile_navigation(3);
             }
             ?>
             <form action="" method="post">
-                <input type="hidden" name="email" id="email" value="<?php echo $email ?>">
+                <input type="hidden" name="email" id="email" value="<?php echo htmlspecialchars($email) ?>">
                 <div class="form-group">
                     <label for="nom">Nom:</label>
-                    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $user->nom ?>">
+                    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo htmlspecialchars($user->nom) ?>">
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prénom:</label>
                     <input type="text" class="form-control" id="prenom" name="prenom"
-                           value="<?php echo $user->prenom ?>">
+                           value="<?php echo htmlspecialchars($user->prenom) ?>">
                 </div>
                 <div class="form-group">
                     <label for="numero_telephone">Numéro de téléphone:</label>
                     <input type="tel" class="form-control" id="numero_telephone" name="numero_telephone"
-                           value="<?php echo $user->phone ?>">
+                           value="<?php echo htmlspecialchars($user->phone) ?>">
                 </div>
                 <div class="form-group">
                     <label for="adresse_mail">Adresse mail:</label>
                     <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required
-                           value="<?php echo $user->email ?>">
+                           value="<?php echo htmlspecialchars($user->email) ?>">
                 </div>
                 <div class="form-group">
                     <label for="password">Mot de passe:</label>
@@ -109,7 +109,7 @@ get_profile_navigation(3);
                 <div class="form-group">
                     <label for="adresse">Adresse:</label>
                     <input type="text" class="form-control" id="adresse" name="adresse"
-                           value="<?php echo $user->address ?>">
+                           value="<?php echo htmlspecialchars($user->address) ?>">
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Modifier">
@@ -124,49 +124,3 @@ get_profile_navigation(3);
 get_footer();
 
 ?>
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="fr">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Sign Up</title>-->
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-<!--    <style>-->
-<!--        body{ font: 14px sans-serif; }-->
-<!--        .wrapper{ width: 360px; padding: 20px; }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <div class="wrapper">-->
-<!--        <h2>Créer un compte</h2>-->
-<!--        <form action="" method="post">-->
-<!--            <div class="form-group">-->
-<!--                <label for="password">Mot de passe:</label>-->
-<!--                <input type="password" class="form-control" id="password" name="password" required>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <label for="confirm_password">Confirmer le mot de passe:</label>-->
-<!--                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <label for="adresse_mail">Adresse mail:</label>-->
-<!--                <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required>-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <label for="numero_telephone">Numéro de téléphone:</label>-->
-<!--                <input type="number" class="form-control" id="numero_telephone" name="numero_telephone" >-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <label for="adresse">Adresse:</label>-->
-<!--                <input type="text" class="form-control" id="adresse" name="adresse" >-->
-<!--            </div>-->
-<!--            <div class="form-group">-->
-<!--                <input type="submit" class="btn btn-primary" value="Submit">-->
-<!--                <input type="reset" class="btn btn-secondary ml-2" value="Reset">-->
-<!--            </div>-->
-<!--            <p>Vous avez déjà un compte ? <a href="login.php"> Connectez vous ici</a>.</p>-->
-<!--        </form>-->
-<!--    </div>    -->
-<!--</body>-->
-<!--</html>-->

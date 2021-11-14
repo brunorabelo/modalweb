@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_email = $_SESSION['user']->email;
         $res = AnnonceModel::insererAnnonce($title, $description, $quantity, $place, $user_email, $price, $category, $photo);
         if ($res)
-            header('location: mes_annonces.php?id=' . $id);
+            header('location: mes_annonces.php');
         else $errors[] = "Error inserting annonce";
     }
 
@@ -113,7 +113,7 @@ get_header();
                     <div class="form-group">
                         <label for="adresse">Où récupérer l'objet :</label>
                         <input type="text" class="form-control" id="adresse" name="adresse" required
-                               value="<?php echo htmlspecialchars($place) ?>">
+                               value="<?php echo htmlspecialchars($place)?>">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantité :</label>

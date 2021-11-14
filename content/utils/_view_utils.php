@@ -127,7 +127,7 @@ function get_header()
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="/content" class="logo">
+                        <a href="/content/index.php" class="logo">
                             <img src="./img/logo.png" height="62" alt="">
                         </a>
                     </div>
@@ -348,7 +348,7 @@ function get_annonce_details($annonce)
                     <div>
                         <h3 class="product-price">€ ' . htmlspecialchars($annonce->price) . '</h3>
                     </div>
-                    <p>' . htmlspecialchars($annonce->description) . '</p>
+                    <p>' . nl2br(htmlspecialchars($annonce->description)) . '</p>
                     <p><b>Annonced by: ' . htmlspecialchars($annonce->user->nom) . " " . htmlspecialchars($annonce->user->prenom) . '</b></p>
                     
                     <div class="add-to-cart">

@@ -116,7 +116,7 @@ get_header();
                     <div class="form-group">
                         <label for="adresse">Où récupérer l'objet :</label>
                         <input type="text" class="form-control" id="adresse" name="adresse" required
-                               value="<?php echo htmlspecialchars($place)?>">
+                               value="<?php echo htmlspecialchars(!$place && !empty($place)? $place :  $_SESSION['user']->address) ?>">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantité :</label>

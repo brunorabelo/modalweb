@@ -349,7 +349,10 @@ function get_annonce_details($annonce)
                         <h3 class="product-price">€ ' . htmlspecialchars($annonce->price) . '</h3>
                     </div>
                     <p>' . nl2br(htmlspecialchars($annonce->description)) . '</p>
+                    <p><b>Place: ' . htmlspecialchars($annonce->place) . '</b></p>
                     <p><b>Annonced by: ' . htmlspecialchars($annonce->user->nom) . " " . htmlspecialchars($annonce->user->prenom) . '</b></p>
+                    <p><b>Contact: ' . htmlspecialchars($annonce->user->phone) . '</b></p>
+                    
                     
                     <div class="add-to-cart">
                     ' . $editButton . '

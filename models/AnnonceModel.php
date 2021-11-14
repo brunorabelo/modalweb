@@ -61,6 +61,7 @@ class AnnonceModel
             $user = new UserModel();
             $user->prenom = $row['user_prenom'];
             $user->nom = $row['user_nom'];
+            $user->phone = $row['phone'];
             $annonce->user = $user;
         }
         return $annonce;
@@ -70,7 +71,7 @@ class AnnonceModel
     {
 
         $dbh = Database::connect();
-        $query = "SELECT a.*, c.nom, u.nom as 'user_nom', u.prenom as 'user_prenom'  FROM `annonce` as a join categories as c on a.category_id=c.id join `users` as u on u.email=a.user_email WHERE a.id = ?";
+        $query = "SELECT a.*, c.nom, u.nom as 'user_nom', u.prenom as 'user_prenom', u.phone  FROM `annonce` as a join categories as c on a.category_id=c.id join `users` as u on u.email=a.user_email WHERE a.id = ?";
         $sth = $dbh->prepare($query);
 //        $sth->setFetchMode(PDO::FETCH_CLASS, 'AnnonceModel');
         $sth->execute([$id]);

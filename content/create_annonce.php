@@ -54,10 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $filename = tempnam($dir, 'IMG');
     unlink($filename);
-    $filename = str_replace('.tmp','',$filename);
+    $filename = str_replace('.tmp', '', $filename);
     $photo = substr($filename, strpos($filename, "IMG"));
-    if (!$dir = uploadImage($filename)) {
-        $errors[] = "A problem occured while uploading the image.";
+    $res = uploadImage($filename);
+    if ($res !== true) {
+        $errors[] = $res;
     }
 
 
@@ -67,8 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($res) {
             header('location: mes_annonces.php');
             exit;
-        }
-        else $errors[] = "Error inserting annonce";
+        } else $errors[] = "Error inserting annonce";
     }
 
 }
@@ -116,7 +116,7 @@ get_header();
                     <div class="form-group">
                         <label for="adresse">Où récupérer l'objet :</label>
                         <input type="text" class="form-control" id="adresse" name="adresse" required
-                               value="<?php echo htmlspecialchars(!$place && !empty($place)? $place :  $_SESSION['user']->address) ?>">
+                               value="<?php echo htmlspecialchars(!$place && !empty($place) ? $place : $_SESSION['user']->address) ?>">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantité :</label>

@@ -67,13 +67,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_FILES['photo']['tmp_name'])) {
         $dir = 'img/annonces/';
         $oldFilename = $dir . $annonce->photo;
-        unlink($oldFilename);
         $filename = tempnam($dir, 'IMG');
         unlink($filename);
-        $filename = str_replace('.tmp','',$filename);
+        $filename = str_replace('.tmp', '', $filename);
         $photo = substr($filename, strpos($filename, "IMG"));
-        if (!$dir = uploadImage($filename)) {
-            $errors[] = "A problem occured while uploading the image.";
+        $res = uploadImage($filename);
+        if ($res !== true) {
+            $errors[] = $res;
+        } else {
+            unlink($oldFilename);
         }
     }
 

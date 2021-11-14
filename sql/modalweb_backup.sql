@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Tempo de geração: 14/11/2021 às 23:16
--- Versão do servidor: 10.4.13-MariaDB
--- Versão do PHP: 7.4.8
+-- Hôte : 127.0.0.1
+-- Généré le : dim. 14 nov. 2021 à 20:19
+-- Version du serveur : 10.4.20-MariaDB
+-- Version de PHP : 7.4.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `modalweb`
+-- Base de données : `modalweb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `annonce`
+-- Structure de la table `annonce`
 --
 
 CREATE TABLE `annonce` (
@@ -40,7 +40,7 @@ CREATE TABLE `annonce` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Despejando dados para a tabela `annonce`
+-- Déchargement des données de la table `annonce`
 --
 
 INSERT INTO `annonce` (`id`, `title`, `description`, `price`, `place`, `photo`, `category_id`, `user_email`, `quantity`) VALUES
@@ -61,7 +61,7 @@ INSERT INTO `annonce` (`id`, `title`, `description`, `price`, `place`, `photo`, 
 (18, 'Tapis de sol', 'Peu confortable mais très pratique à transporter !', '6.00', '11.30.12', 'IMG42F5', 9, 'Charlesv@hotmail.com', 1),
 (19, 'Capote Durex livrées en 5 minutes max !', 'Vous pouvez m\'appeler à tout moment du jour ou de la nuit, je vous livre en toute discrétion en moins de 5 minutes !\r\n\r\ncapote à l\'unité  : 2.5€ de jour (6h-23h), 5€ de nuit (23h-6h)\r\nLe paquet de 6 :  12€ de jour (6h-23h), 15€ de nuit (23h-6h)', '2.50', 'Je vous le livre', 'IMG1A2C', 6, 'a@a.a', 100),
 (20, 'Rouleau de PQ livré en 5 minutes max !', 'Une envie pressante et pas de PQ chez vous ? En plus les toilettes publiques sont dégueulasses ?\r\n\r\nAppelez-moi, je vous livre rapidement et en toute discrétion !\r\n\r\n2€le jour, 5€ la nuit', '2.00', 'Je vous le livre', 'IMGE6F7', 6, 'a@a.a', 100),
-(21, 'Lunettes love', 'De superbes lunettes qui changent de couleur en fonction de la lumière pour envoyer plein d\'amour à tous ceux que vous aimez !!', '5.00', '74.10.05', 'IMG3633', 2, 'margaux.bouvier@yahoo.fr', 7),
+(21, 'Lunettes love', 'De superbes lunettes qui changent de couleur en fonction de la lumière pour envoyer plein d\'amour à tous ceux que vous aimez !!', '5.00', '74.10.05', 'IMG3633', 2, 'margaux.bouvier@yahoo.fr', 6),
 (22, 'feuilles A4', 'paquets de 100 feuilles A4 blanches, vertes ou jaunes que j\'ai acheté lorsque j\'avais encore l\'illusion que je prendrais des notes en cours. \r\nJe souhaite désormais m\'en débarrasser !', '0.50', '74.10.05', 'IMG2207', 1, 'margaux.bouvier@yahoo.fr', 8),
 (23, 'Dessous de plat métalique', 'La photo suffit', '3.00', '74.10.05', 'IMG51B0', 3, 'margaux.bouvier@yahoo.fr', 2),
 (24, 'Enceinte bluetooth', 'JBL GO3 petite avec un très bon son !', '20.00', '74.10.05', 'IMG48EE', 9, 'margaux.bouvier@yahoo.fr', 1),
@@ -72,13 +72,12 @@ INSERT INTO `annonce` (`id`, `title`, `description`, `price`, `place`, `photo`, 
 (29, 'stabilo', 'noir bleu ou rouge', '1.00', '10.40.20', 'IMGF7AE', 1, 'Lsgrr@gmail.com', 17),
 (30, 'Chaise', 'plus agréable et plus résistante que celles en plastiques des caserts', '39.90', '10.40.20', 'IMG2FF1', 6, 'Lsgrr@gmail.com', 1),
 (31, 'Switch ethernet', 'idéal pour organiser une LAN dans son casert sans passer par la connexion wifi qui ne fonctionne jamais', '10.00', '09.20.45', 'IMG7242', 7, 'cyp@gmail.com', 1),
-(32, 'cable ethernet', '2m de long\r\n\r\nbien plus fiable que le wifi en mousse', '5.00', '09.20.45', 'IMG6C83', 7, 'cyp@gmail.com', 3),
-(33, 'Telephone', 'Super telephone!', '120.00', '09.40.54', 'IMGUj8KMq', 7, 'brunorabelow@hotmail.com', 1);
+(32, 'cable ethernet', '2m de long\r\n\r\nbien plus fiable que le wifi en mousse', '5.00', '09.20.45', 'IMG6C83', 7, 'cyp@gmail.com', 3);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `categories`
+-- Structure de la table `categories`
 --
 
 CREATE TABLE `categories` (
@@ -87,7 +86,7 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Despejando dados para a tabela `categories`
+-- Déchargement des données de la table `categories`
 --
 
 INSERT INTO `categories` (`id`, `nom`) VALUES
@@ -103,7 +102,7 @@ INSERT INTO `categories` (`id`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `users`
+-- Structure de la table `users`
 --
 
 CREATE TABLE `users` (
@@ -117,14 +116,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Despejando dados para a tabela `users`
+-- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`email`, `password`, `nom`, `prenom`, `phone`, `address`, `is_admin`) VALUES
 ('a@a.a', '$2y$10$mN8gI011MxcKbYkoe5LMBuKfNOlx95UpdO0sb.rnreZbSoSkCQhny', 'Livreur', 'Anonyme', '0663921837', '00.00.00', 0),
 ('alice', '$2y$10$/kfPasg1RqDROXaSn7jbmehRzVRP1uErGwVepi3O7YaXI.5nEZL92', 'Beaudoin', 'Alice', '0739857131', '11.20.22', 1),
 ('bob', '$2y$10$IiAknB4cJuWMd1eO6/9ooOoGRLPNSdlNylHjGq96.qhq8rSaokQ1y', 'Lessard', 'Bob', '0623998128', '71.30.03', 0),
-('brunorabelow@hotmail.com', '$2y$10$Wyw5Nr90Zk1WX7ImZm6Qlua6UGLVZQIDJxM07kFHS/34Gx2kRwhBO', 'BOTELHO', 'Bruno', '07498018242', '09.40.54', 0),
 ('Charlesv@hotmail.com', '$2y$10$bOqVDb.elE8Hc5EJN7tO1uto0tdANjesk1exuHLIwxhwlLb1g69mK', 'Charles', 'Van Damme', '0729318233', '11.30.12', 0),
 ('cyp@gmail.com', '$2y$10$31os7JcLKXgojtJIXH4YX.z5lAm.GK4.DoT4wGytNCxselBY7C0r2', 'Raffi', 'Cyprien', '0695341520', '09.20.45', 1),
 ('JeoffroiBrg@gmail.com', '$2y$10$wFKf/FNRf4iRfRg.u2U03u.iniYrWShK1gUz.iT3BOkJLa6ms7a.q', 'Bourgeau', 'Jeoffroi', '0722981751', '10.40.62', 0),
@@ -132,11 +130,11 @@ INSERT INTO `users` (`email`, `password`, `nom`, `prenom`, `phone`, `address`, `
 ('margaux.bouvier@yahoo.fr', '$2y$10$uhYIqAGQfmV9xLPtVl3rFONHEP4y2V1zK.rUni8P3FqMu14N2Y7oy', 'Bouvier', 'Margaux', '0723948211', '74.10.05', 0);
 
 --
--- Índices de tabelas apagadas
+-- Index pour les tables déchargées
 --
 
 --
--- Índices de tabela `annonce`
+-- Index pour la table `annonce`
 --
 ALTER TABLE `annonce`
   ADD PRIMARY KEY (`id`),
@@ -145,40 +143,40 @@ ALTER TABLE `annonce`
 ALTER TABLE `annonce` ADD FULLTEXT KEY `title` (`title`,`description`,`place`);
 
 --
--- Índices de tabela `categories`
+-- Index pour la table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `users`
+-- Index pour la table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`email`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT de tabelas apagadas
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT de tabela `annonce`
+-- AUTO_INCREMENT pour la table `annonce`
 --
 ALTER TABLE `annonce`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
--- AUTO_INCREMENT de tabela `categories`
+-- AUTO_INCREMENT pour la table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- Restrições para dumps de tabelas
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Restrições para tabelas `annonce`
+-- Contraintes pour la table `annonce`
 --
 ALTER TABLE `annonce`
   ADD CONSTRAINT `annonce_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

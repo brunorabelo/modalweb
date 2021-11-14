@@ -83,17 +83,17 @@ class UserModel
         return false;
     }
 
-    public static function updateUserByAdmin($email, $newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $newPassword)
+    public static function updateUserByAdmin($email, $newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $newPassword, $is_admin)
     {
         $dbh = Database::connect();
         if (UserModel::getUser($email)) {
             if (!$newPassword) {
-                $sth = $dbh->prepare("UPDATE `users` SET `email` = ?, `nom` = ?, `prenom` = ?, `phone` = ?,`address` = ?  WHERE `email` = ?");
-                $sth->execute(array($newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $email));
+                $sth = $dbh->prepare("UPDATE `users` SET `email` = ?, `nom` = ?, `prenom` = ?, `phone` = ?,`address` = ? , `is_admin` = ? WHERE `email` = ?");
+                $sth->execute(array($newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $is_admin, $email));
             } else {
                 $hashPass = password_hash($newPassword, PASSWORD_DEFAULT);
-                $sth = $dbh->prepare("UPDATE `users` SET `email` = ?, `nom` = ?, `prenom` = ?, `phone` = ?,`address` = ?, `password` = ?  WHERE `email` = ?");
-                $sth->execute(array($newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $hashPass, $email));
+                $sth = $dbh->prepare("UPDATE `users` SET `email` = ?, `nom` = ?, `prenom` = ?, `phone` = ?,`address` = ?, `password` = ?, `is_admin` = ?  WHERE `email` = ?");
+                $sth->execute(array($newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $hashPass, $is_admin, $email));
             }
         }
         $dbh = null;
@@ -108,6 +108,17 @@ class UserModel
             $sth->execute(array($newNom, $newPrenom, $newTelephone, $newAddress, $email));
         }
         $dbh = null;
+    }
+
+    public static function deleteUser($email)
+    {
+        $dbh = Database::connect();
+        if (UserModel::getUser($email)) {
+            $sth = $dbh->prepare("DELETE FROM `users` WHERE `email` = ?");
+            $sth->execute(array($email));
+        }
+        $dbh = null;
+
     }
 
     public static function insererUtilisateur($password, $phone, $address, $email, $nom, $prenom)

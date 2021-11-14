@@ -73,10 +73,6 @@ class AnnonceModel
 
     public static function deleteAnnonce($id)
     {
-        $annonce = AnnonceModel::getAnnonceDetails($id);
-        if ($annonce->user_email != $_SESSION['user']->email)
-            return;
-
         $dbh = Database::connect();
         $query = "DELETE FROM `annonce` WHERE id = ?";
         $sth = $dbh->prepare($query);

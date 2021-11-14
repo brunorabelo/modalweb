@@ -12,6 +12,23 @@ class UserModel
     public string $address;
     public bool $is_admin;
 
+    public static function getAllUsers()
+    {
+        $dbh = Database::connect();
+        $query = "SELECT * FROM `users`";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'UserModel');
+        $sth->execute();
+        $users = $sth->fetchAll();
+        $sth->closeCursor();
+
+        if (!$users)
+            return null;
+
+        $dbh = null;
+        return $users;
+    }
+
     public static function getUser($email)
     {
         $dbh = Database::connect();
@@ -64,6 +81,22 @@ class UserModel
         }
         $dbh = null;
         return false;
+    }
+
+    public static function updateUserByAdmin($email, $newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $newPassword)
+    {
+        $dbh = Database::connect();
+        if (UserModel::getUser($email)) {
+            if (!$newPassword) {
+                $sth = $dbh->prepare("UPDATE `users` SET `email` = ?, `nom` = ?, `prenom` = ?, `phone` = ?,`address` = ?  WHERE `email` = ?");
+                $sth->execute(array($newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $email));
+            } else {
+                $hashPass = password_hash($newPassword, PASSWORD_DEFAULT);
+                $sth = $dbh->prepare("UPDATE `users` SET `email` = ?, `nom` = ?, `prenom` = ?, `phone` = ?,`address` = ?, `password` = ?  WHERE `email` = ?");
+                $sth->execute(array($newEmail, $newNom, $newPrenom, $newTelephone, $newAddress, $hashPass, $email));
+            }
+        }
+        $dbh = null;
     }
 
     public static function updateUser($user, $newNom, $newPrenom, $newTelephone, $newAddress)

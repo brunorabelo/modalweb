@@ -98,6 +98,11 @@ function isLoggedIn()
     return isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true;
 }
 
+function isAdmin()
+{
+    return isLoggedIn() && $_SESSION['user']->is_admin;
+}
+
 function get_header()
 {
 
@@ -108,7 +113,7 @@ function get_header()
     $signup = '<li><a href="signup.php"><i class="fa fa-user-o"></i>Signup</a></li>';
     // Check if the user is already logged in, if yes then redirect him to welcome page
     if (isLoggedIn()) {
-        $bienvenue = "Welcome " . $_SESSION["user"]->email;
+        $bienvenue = "Welcome " . $_SESSION["user"]->nom . " " . $_SESSION['user']->prenom;
         $text = "My Account";
         $url = "profile.php";
         $logout = '<li><a href="logout.php"><i class="fa fa-user-o"></i>Logout</a></li>';
@@ -120,11 +125,6 @@ function get_header()
     <!-- TOP HEADER -->
     <div id="top-header">
         <div class="container">
-            <ul class="header-links pull-left">
-                <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-                <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
-            </ul>
             <ul class="header-links pull-right">
                 <li style="color: white;">' . $bienvenue . '</li>
                 <li><a href="' . $url . '"><i class="fa fa-user-o"></i>' . $text . '</a></li>
@@ -230,6 +230,11 @@ function get_header()
 
 function get_profile_navigation($tab = 0)
 {
+    $adminTab = '';
+    if (isAdmin()) {
+        $adminTab = '<li ' . ($tab == 3 ? 'class="active"' : '') . ' ><a href="users.php" style="color: red">Users</a></li>';
+        $adminTab = $adminTab . '<li ' . ($tab == 4 ? 'class="active"' : '') . ' ><a href="categories.php" style="color: red">Categories</a></li>';
+    }
     echo '
 <!-- NAVIGATION -->
 <nav id="navigation">
@@ -242,6 +247,7 @@ function get_profile_navigation($tab = 0)
                 <li ' . ($tab == 0 ? 'class="active"' : '') . ' ><a href="profile.php">Personal</a></li>
                 <li ' . ($tab == 1 ? 'class="active"' : '') . ' ><a href="mdp.php">Mot de Passe</a></li>
                 <li ' . ($tab == 2 ? 'class="active"' : '') . ' ><a href="mes_annonces.php">Mes annonces</a></li>
+                ' . $adminTab . '
             </ul>
             <!-- /NAV -->
         </div>
@@ -312,12 +318,24 @@ function get_annonce($annonce = null)
                                 <!-- /product -->';
 }
 
+function checkAuthorization($owner_email)
+{
+
+    if (!isLoggedIn())
+        return false;
+    $user = $_SESSION['user'];
+
+    if (isAdmin() || $user->email == $owner_email)
+        return true;
+    return false;
+}
 
 function get_annonce_details($annonce)
 {
     $editButton = '';
     $deleteButton = '';
-    if (isLoggedIn()) {
+
+    if (checkAuthorization($annonce->user_email)) {
         $editButton = '<a href="edit_annonce.php?id=' . $annonce->id . '"><button class="add-to-cart-btn" ><i class="fa fa-edit"></i> Edit</button></a>';
         $deleteButton = '<a href="delete_annonce.php?id=' . $annonce->id . '"><button class="add-to-cart-btn"><i class="fa fa-trash"></i> Supprimer</button></a>';
     }

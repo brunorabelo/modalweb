@@ -18,7 +18,11 @@ get_header();
 
 get_profile_navigation(2);
 
-$annonces = AnnonceModel::getUserAnnonces($user);
+if (isAdmin())
+    $annonces = AnnonceModel::getAllAnnonces();
+else {
+    $annonces = AnnonceModel::getUserAnnonces($user);
+}
 
 list_products($annonces);
 

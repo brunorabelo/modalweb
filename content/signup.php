@@ -14,7 +14,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 // Define variables and initialize with empty values
 $password = $confirm_password = $adresse_mail = $numero_telephone = $adresse = $nom = $prenom = "";
 $errors = array();
-
+$success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -65,6 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         UserModel::insererUtilisateur($password, $numero_telephone, $adresse, $adresse_mail, $nom, $prenom);
+        $success = true;
+
     }
 
 }
@@ -79,44 +81,52 @@ get_header();
         <div class="col-md-4 ">
             <h1 class="h3 mb-3 fw-normal">Créer un compte</h1>
             <?php
-            foreach ($errors as $error)
-                echo "<li style='color: red'>$error</li>"
-            ?>
-            <form action="" method="post">
-                <div class="form-group">
-                    <label for="nom">Nom:</label>
-                    <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $nom ?>">
-                </div>
-                <div class="form-group">
-                    <label for="prenom">Prénom:</label>
-                    <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $prenom ?>">
-                </div>
-                <div class="form-group">
-                    <label for="numero_telephone">Numéro de téléphone:</label>
-                    <input type="tel" class="form-control" id="numero_telephone" name="numero_telephone" value="<?php echo $numero_telephone ?>">
-                </div>
-                <div class="form-group">
-                    <label for="adresse">Adresse:</label>
-                    <input type="text" class="form-control" id="adresse" name="adresse" value="<?php echo $adresse ?>">
-                </div>
-                <div class="form-group">
-                    <label for="adresse_mail">Adresse mail:</label>
-                    <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required  value="<?php echo $adresse_mail ?>">
-                </div>
-                <div class="form-group">
-                    <label for="password">Mot de passe:</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirm_password">Confirmer le mot de passe:</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                    <input type="reset" class="btn btn-secondary ml-2" value="Reset">
-                </div>
-                <p>Vous avez déjà un compte ? <a href="login.php"> Connectez vous ici</a>.</p>
-            </form>
+            if ($success)
+                echo "<p style='color: green'>Your password has been successfully changed!</p>";
+            else {
+                foreach ($errors as $error)
+                    echo "<li style='color: red'>$error</li>"
+                ?>
+                <form action="" method="post">
+                    <div class="form-group">
+                        <label for="nom">Nom:</label>
+                        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $nom ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="prenom">Prénom:</label>
+                        <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $prenom ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="numero_telephone">Numéro de téléphone:</label>
+                        <input type="tel" class="form-control" id="numero_telephone" name="numero_telephone"
+                               value="<?php echo $numero_telephone ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="adresse">Adresse:</label>
+                        <input type="text" class="form-control" id="adresse" name="adresse"
+                               value="<?php echo $adresse ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="adresse_mail">Adresse mail:</label>
+                        <input type="text" class="form-control" id="adresse_mail" name="adresse_mail" required
+                               value="<?php echo $adresse_mail ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe:</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirmer le mot de passe:</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                        <input type="reset" class="btn btn-secondary ml-2" value="Reset">
+                    </div>
+                    <p>Vous avez déjà un compte ? <a href="login.php"> Connectez vous ici</a>.</p>
+                </form>
+            <?php } ?>
         </div>
     </div>
 </div>

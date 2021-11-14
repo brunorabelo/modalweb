@@ -16,7 +16,7 @@ $annonce = null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $id = $_GET['id'] ?? null;
     $annonce = AnnonceModel::getAnnonceDetails($id);
-    if (!$id || !$annonce)
+    if (!$id || !$annonce || !checkAuthorization($annonce->user_email))
         header("location: mes_annonces.php");
 }
 
@@ -76,8 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $user_email = $_SESSION['user']->email;
-    if ($user_email != $annonce->user_email)
-        $errors[] = "You are not allowed to edit this image";
+    if (!checkAuthorization($annonce->user_email))
+        $errors[] = "You are not allowed to edit this annonce";
     if (empty($errors)) {
         AnnonceModel::updateAnnonce($id, $title, $description, $quantity, $adresse, $price, $category, $photo);
         $annonce = AnnonceModel::getAnnonceDetails($id);

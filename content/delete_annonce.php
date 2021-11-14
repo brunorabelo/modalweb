@@ -10,10 +10,16 @@ if (!isLoggedIn())
 $id = null;
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $id = $_GET['id'] ?? null;
+
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'] ?? null;
 
     $annonce = AnnonceModel::getAnnonceDetails($id);
+
+    $annonce = AnnonceModel::getAnnonceDetails($id);
+    if ($annonce->user_email != $_SESSION['user']->email)
+        header('location: mes_annonces.php');
+
     AnnonceModel::deleteAnnonce($annonce->id);
     $file = 'img/annonces/' . $annonce->photo;
     unlink($file);

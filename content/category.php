@@ -51,8 +51,8 @@ get_profile_navigation(4);
     <div class="container">
         <div class="row">
             <form action="" method="post">
-                <h3>Edit category "<?php echo $category->nom ?>"</h3>
-                <input type="hidden" name="category_id" id="category_id" value="<?php echo $category->id ?>">
+                <h3>Edit category "<?php echo htmlspecialchars($category->nom) ?>"</h3>
+                <input type="hidden" name="category_id" id="category_id" value="<?php echo htmlspecialchars($category->id) ?>">
                 <div class="col-md-4">
                     <div class="form-group mb-3">
                         <input type="text" name="category_name" id="category_name"

@@ -58,8 +58,8 @@ $categories = CategoryModel::getCategories();
             foreach ($categories as $category) {
                 echo '<div class="row">';
                 echo '<div class="col-md-12">';
-                echo '<div class="col-md-4"><h3>' . $category->nom . '</h3></div>';
-                echo '<div class="col-md-2"><a href="category.php?category=' . $category->id . '" type="button" class="btn btn-warning">Edit</a></div>';
+                echo '<div class="col-md-4"><h3>' . htmlspecialchars($category->nom) . '</h3></div>';
+                echo '<div class="col-md-2"><a href="category.php?category=' . htmlspecialchars($category->id) . '" type="button" class="btn btn-warning">Edit</a></div>';
                 echo '</div>';
                 echo '</div>';
             }
